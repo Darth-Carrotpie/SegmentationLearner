@@ -27,6 +27,15 @@ public class LabelsBucket : Singleton<LabelsBucket> {
     public static List<BaseLabel> AnimalsLabels { get { return Instance.animalsLabels; } }
     public static BaseLabel GetAnimalLabel(string labelName) { return AnimalsLabels.Where(x => x.labelName == labelName).FirstOrDefault(); }
 
+    public static List<BaseLabel> GetLabels() {
+        List<BaseLabel> labels = new List<BaseLabel>();
+        labels.AddRange(BuildingLabels);
+        labels.AddRange(FurnitureLabels);
+        labels.AddRange(ItemLabels);
+        labels.AddRange(AnimalsLabels);
+        return labels;
+    }
+
     public static BaseLabel GetLabel(string labelName) {
         BaseLabel lb;
         lb = GetBuildingLabel(labelName);
