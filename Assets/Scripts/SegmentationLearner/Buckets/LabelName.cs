@@ -22,7 +22,9 @@ public class LabelName {
         public static string Rug() { return "furniture_rug"; }
         public static string Drawer() { return "furniture_drawer"; }
         public static string Painting() { return "furniture_painting"; }
-        public static List<string> Get() { return new List<string> { DoubleBed(), Carpet(), Armchair(), NightTable(), TvStand(), Shelf(), Commode(), Rug(), Drawer(), Painting() }; }
+        public static string Clock() { return "furniture_clock"; }
+        public static string FloorLamp() { return "furniture_floor_lamp"; }
+        public static List<string> Get() { return new List<string> { DoubleBed(), Carpet(), Armchair(), NightTable(), TvStand(), Shelf(), Commode(), Rug(), Drawer(), Painting(), Clock(), FloorLamp() }; }
     }
     public class Items {
         public static string Mug() { return "items_mug"; }
@@ -32,7 +34,8 @@ public class LabelName {
         public static string Bowl() { return "items_bowl"; }
         public static string Plate() { return "items_plate"; }
         public static string TV() { return "items_tv"; }
-        public static List<string> Get() { return new List<string> { Cup(), NightLamp(), Vase(), Bowl(), Mug(), Cup(), Plate(), TV() }; }
+        public static string Phone() { return "items_phone"; }
+        public static List<string> Get() { return new List<string> { Cup(), NightLamp(), Vase(), Bowl(), Mug(), Cup(), Plate(), TV(), Phone() }; }
     }
     public class Live {
         public static string Man() { return "live_man"; }
