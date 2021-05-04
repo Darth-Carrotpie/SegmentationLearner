@@ -20,14 +20,16 @@ public class CameraSetup : MonoBehaviour {
         labelCamera.name = "Label Camera";
         int defLayer = LayerMask.NameToLayer("Default");
         int labLayer = LayerMask.NameToLayer("LabelLayer");
+        int markLayer = LayerMask.NameToLayer("MakerLayer");
 
         labelCamera.GetComponent<Camera>().cullingMask = (0 << defLayer) | (1 << labLayer);
+        labelCamera.GetComponent<Camera>().targetTexture = labelRendTexture;
+        labelCamera.transform.parent = mainCam.transform;
 
         normalCamera = Instantiate(mainCam, mainCam.transform.position, Quaternion.identity, mainCam.transform.parent);
-
+        normalCamera.name = "Regular Camera";
+        normalCamera.GetComponent<Camera>().cullingMask = (0 << markLayer) | (1 << defLayer);
         normalCamera.GetComponent<Camera>().targetTexture = normalRendTexture;
-        labelCamera.GetComponent<Camera>().targetTexture = labelRendTexture;
         normalCamera.transform.parent = mainCam.transform;
-        labelCamera.transform.parent = mainCam.transform;
     }
 }

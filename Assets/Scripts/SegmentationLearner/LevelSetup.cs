@@ -42,7 +42,6 @@ public class LevelSetup : MonoBehaviour {
                 LabelIdentity identity = rend.GetComponent<LabelIdentity>();
                 if (identity != null) {
                     int colVal = LabelsBucket.GetLabelIndex(identity);
-                    Debug.Log((byte)colVal);
                     //curMats[i].color = LabelsBucket.GetLabel(identity).encoderColor;
                     curMats[i].color = new Color32((byte)colVal, (byte)colVal, (byte)colVal, 255);
                     totalLabeledItems++;
