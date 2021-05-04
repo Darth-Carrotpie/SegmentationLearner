@@ -1,5 +1,5 @@
-!/[Aa]ssets/Data/screenshots/*.png
-!/[Aa]ssets/Data/labels/*.png
+/Assets/Data/screenshots/
+/Assets/Data/labels/
 # This .gitignore file should be placed at the root of your Unity project directory
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
