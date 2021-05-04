@@ -1,0 +1,86 @@
+# 
+# Wavefront material file
+# Converted by the DEEP Exploration  Deep Exploration 5 5.0.5.1846 Release
+# Right Hemisphere, LTD
+# http://www.righthemisphere.com/
+# 
+
+newmtl elc001_gray1__Vr
+Ka 0.392157 0.392157 0.392157
+Kd 0.392157 0.392157 0.392157
+Ks 1 1 1
+illum 2
+Ns 8
+map_Kd 
+map_bump 
+bump 
+map_opacity 
+map_d 
+refl 
+map_kS 
+map_kA 
+map_Ns 
+
+newmtl elc001_gray2__Vr
+Ka 0.196078 0.196078 0.196078
+Kd 0.196078 0.196078 0.196078
+Ks 1 1 1
+illum 2
+Ns 8
+map_Kd 
+map_bump 
+bump 
+map_opacity 
+map_d 
+refl 
+map_kS 
+map_kA 
+map_Ns 
+
+newmtl elc001_plastic__
+Ka 0 0 0
+Kd 0.0784314 0.0784314 0.0784314
+Ks 1 1 1
+illum 2
+Ns 32
+map_Kd 
+map_bump 
+bump 
+map_opacity 
+map_d 
+refl 
+map_kS 
+map_kA 
+map_Ns 
+
+newmtl elc001_metall__V
+Ka 0 0 0
+Kd 0.588235 0.588235 0.588235
+Ks 1 1 1
+illum 2
+Ns 2048
+map_Kd 
+map_bump 
+bump 
+map_opacity 
+map_d 
+refl 
+map_kS 
+map_kA 
+map_Ns 
+
+newmtl elc001_monitor__
+Ka 0.0588235 0.0588235 0.0588235
+Kd 0.0588235 0.0588235 0.0588235
+Ks 1 1 1
+illum 2
+Ns 8
+map_Kd 
+map_bump 
+bump 
+map_opacity 
+map_d 
+refl 
+map_kS 
+map_kA 
+map_Ns 
