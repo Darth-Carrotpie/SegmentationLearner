@@ -16,14 +16,14 @@ public class CameraCapture : Singleton<CameraCapture> {
 
     public void SavePics(Camera Cam, string subfolder) {
 
-        RenderTexture currentRT = RenderTexture.active;
+        //RenderTexture currentRT = RenderTexture.active;
         RenderTexture.active = Cam.targetTexture;
 
         Cam.Render();
         Texture2D Image = new Texture2D(Cam.targetTexture.width, Cam.targetTexture.height);
         Image.ReadPixels(new Rect(0, 0, Cam.targetTexture.width, Cam.targetTexture.height), 0, 0);
         Image.Apply();
-        RenderTexture.active = currentRT;
+        //RenderTexture.active = currentRT;
 
         var Bytes = Image.EncodeToPNG();
         Destroy(Image);
@@ -31,6 +31,7 @@ public class CameraCapture : Singleton<CameraCapture> {
         Debug.Log("saving image to:" + itemPath);
         File.WriteAllBytes(itemPath, Bytes);
     }
+
     public void DeletePics(string subfolder) {
         string itemPath = Application.dataPath + "/Data/" + subfolder;
         var picFile = Directory.GetFiles(itemPath);
