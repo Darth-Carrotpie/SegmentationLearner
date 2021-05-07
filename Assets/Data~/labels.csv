@@ -4,7 +4,6 @@ building_floor,0,69,120
 building_ceiling,0,178,166
 building_door,0,140,126
 furniture_doubleBed,71,110,0
-furniture_carpet,120,79,0
 furniture_armchair,120,130,0
 furniture_nightTable,255,200,160
 furniture_tvStand,255,223,223
@@ -15,8 +14,6 @@ furniture_drawer,173,119,119
 furniture_painting,200,84,84
 furniture_clock,202,161,55
 furniture_floor_lamp,229,189,86
-furniture_floor_lamp,229,189,86
-items_cup,110,0,66
 items_nightLamp,180,22,117
 items_vase,116,0,130
 items_bowl,65,0,140

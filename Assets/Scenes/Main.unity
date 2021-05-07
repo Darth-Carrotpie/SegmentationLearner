@@ -2186,6 +2186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _persistent: 0
   FileCounter: 0
+  rendTex: {fileID: 0}
 --- !u!1001 &887636324
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6012,8 +6013,8 @@ Camera:
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
+  m_HDR: 0
+  m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
@@ -6893,8 +6894,6 @@ MonoBehaviour:
   furnitureLabels:
   - encoderColor: {r: 0.27673876, g: 0.43137255, b: 0, a: 1}
     labelName: furniture_doubleBed
-  - encoderColor: {r: 0.47058824, g: 0.31132564, b: 0, a: 1}
-    labelName: furniture_carpet
   - encoderColor: {r: 0.4710449, g: 0.50980395, b: 0, a: 1}
     labelName: furniture_armchair
   - encoderColor: {r: 1, g: 0.7862008, b: 0.6289308, a: 1}
@@ -6915,11 +6914,7 @@ MonoBehaviour:
     labelName: furniture_clock
   - encoderColor: {r: 0.8962264, g: 0.7397999, b: 0.33538026, a: 1}
     labelName: furniture_floor_lamp
-  - encoderColor: {r: 0.8962264, g: 0.7397999, b: 0.33538026, a: 1}
-    labelName: furniture_floor_lamp
   itemLabels:
-  - encoderColor: {r: 0.43137255, g: 0, b: 0.25759384, a: 1}
-    labelName: items_cup
   - encoderColor: {r: 0.7075472, g: 0.0845496, b: 0.46046767, a: 1}
     labelName: items_nightLamp
   - encoderColor: {r: 0.4557604, g: 0, b: 0.50980395, a: 1}

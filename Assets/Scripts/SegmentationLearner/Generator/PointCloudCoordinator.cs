@@ -28,7 +28,7 @@ public class PointCloudCoordinator : Singleton<PointCloudCoordinator> {
     void GeneratePoints(int amount) {
         for (int i = 0; i < amount; i++) {
             Vector3 pos = GetRandomLocation() + RndHeight();
-            Vector3 target = GetRandomLocation() + RndHeight();
+            Vector3 target = GetRandomLocation() + RndHeight() - new Vector3(0, -1f, 0); //We want targets to be slightly lower, since there are more items on the floor than on the ceiling...
             Quaternion rot = Quaternion.LookRotation(pos - target, Vector3.up * 20f);
             GameObject newPoint = Instantiate(pointPrefab, Vector3.zero, rot, transform);
             newPoint.transform.position = pos;

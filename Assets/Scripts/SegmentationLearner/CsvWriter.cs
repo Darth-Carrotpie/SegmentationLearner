@@ -31,7 +31,7 @@ public class CsvWriter : Singleton<CsvWriter> {
             rowDataTemp[3] = col.b.ToString();
             rowData.Add(rowDataTemp);
         }
-        Debug.Log("Saved " + rowData.Count + " Labels to CSV in " + Instance.getPath());
+        Debug.Log("Saving " + rowData.Count + " Labels to CSV in " + Instance.getPath());
         string[][] output = new string[rowData.Count][];
 
         for (int i = 0; i < output.Length; i++) {
@@ -56,7 +56,7 @@ public class CsvWriter : Singleton<CsvWriter> {
     // Following method is used to retrive the relative path as device platform
     private string getPath() {
 #if UNITY_EDITOR
-        return Application.dataPath + "/Data/" + "labels.csv";
+        return Application.dataPath + "/Data~/" + "labels.csv";
 #elif UNITY_ANDROID
         return Application.persistentDataPath + "labels.csv";
 #elif UNITY_IPHONE
