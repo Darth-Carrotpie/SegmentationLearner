@@ -11,13 +11,18 @@ public class CameraCapture : Singleton<CameraCapture>
     private Camera labelCamera;
 
     public RenderTexture rendTex;
+    public RenderTexture labTex;
 
     public static void Setup(Camera normal, Camera label)
     {
         Instance.normalCamera = normal;
         Instance.labelCamera = label;
 
-        Instance.rendTex = new RenderTexture(Instance.labelCamera.targetTexture.width,
+        Instance.rendTex = new RenderTexture(Instance.normalCamera.targetTexture.width,
+            Instance.normalCamera.targetTexture.height,
+            16, RenderTextureFormat.ARGB32,
+            RenderTextureReadWrite.sRGB);
+        Instance.labTex = new RenderTexture(Instance.labelCamera.targetTexture.width,
             Instance.labelCamera.targetTexture.height,
             16, RenderTextureFormat.ARGB32,
             RenderTextureReadWrite.sRGB);
@@ -28,13 +33,13 @@ public class CameraCapture : Singleton<CameraCapture>
         //RenderTexture currentRT = RenderTexture.active;
         if (subfolder == "labels/")
         {
-            Cam.targetTexture = rendTex;
-            RenderTexture.active = Cam.targetTexture;
+            Cam.targetTexture = labTex;
         }
         else
         {
-            RenderTexture.active = Cam.targetTexture;
+            Cam.targetTexture = rendTex;
         }
+        RenderTexture.active = Cam.targetTexture;
 
 
         Cam.Render();

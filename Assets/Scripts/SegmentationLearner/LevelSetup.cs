@@ -9,12 +9,14 @@ public class LevelSetup : MonoBehaviour {
     private GameObject labelEnvironment;
     public int totalLabeledItems;
     public int totalUniqueLabels;
+    public int totalVoids;
     List<string> labeledNames = new List<string>();
 
     void Start() {
         SetupEnv();
         totalUniqueLabels = labeledNames.Count;
         CsvWriter.SaveLabels(LabelsBucket.GetLabels().Select(pair => pair.Key).ToList());
+        Debug.Log("Total Labeled items: "+totalLabeledItems+" of which unique: "+totalUniqueLabels+" total void items: "+totalVoids);
     }
 
     void SetupEnv() {
@@ -38,18 +40,18 @@ public class LevelSetup : MonoBehaviour {
             Material[] curMats = rend.materials;
             for (int i = 0; i < rend.materials.Length; i++) {
                 curMats[i] = new Material(labelMaterial);
-                //rend.materials[i] = labelMaterial;
                 LabelIdentity identity = rend.GetComponent<LabelIdentity>();
+                int colVal = 0;
                 if (identity != null) {
-                    int colVal = LabelsBucket.GetLabelIndex(identity) + 1;
-                    //curMats[i].color = LabelsBucket.GetLabel(identity).encoderColor;
-                    curMats[i].color = new Color32((byte)colVal, (byte)colVal, (byte)colVal, 255);
+                    colVal = LabelsBucket.GetLabelIndex(identity) + 1;
                     totalLabeledItems++;
                     if (!labeledNames.Contains(identity.labelName))
                         labeledNames.Add(identity.labelName);
                 } else {
-                    Debug.Log("identity component not found on: " + tr.name + " each renderable must have an LabelIdentity component with a type set.");
+                    Debug.Log("identity component not found on: " + tr.name + " each renderable must have an LabelIdentity component with a type set. Setting to void Val=[0]");
+                    totalVoids++;
                 }
+                curMats[i].color = new Color32((byte)colVal, (byte)colVal, (byte)colVal, 255);
             }
             rend.materials = curMats;
         } else {
