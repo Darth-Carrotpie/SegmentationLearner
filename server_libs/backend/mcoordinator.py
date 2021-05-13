@@ -1,39 +1,26 @@
 import os
-from fastai.vision.all import resnet34, create_unet_model
-from fastai.learner import load_learner
+from fastai.vision.all import resnet34
+from fastai.learner import load_learner, load_model
 import pandas as pd
 import pathlib
 import cv2
 import numpy as np
 import torch
-
-path = ""
-
-
-def label_func(self, fn):
-    return os.path.join(path, "labels", f"{fn.stem}{fn.suffix}")
+from PIL import Image
 
 
 class ModelCoordinator:
     def load_info(self):
-        path = pathlib.Path().absolute()
-        self.path = os.path.join(path, "Assets", "Data~")
+        self.path = pathlib.Path().absolute()
+        self.path = os.path.join(self.path, "Assets", "Data~")
+
         self.codes = pd.read_csv(os.path.join(self.path, "labels.csv"))
         self.img_size = (256, 256)
 
     def loadModel(self, filename):
-        # self.model = load_model(filename, resnet34)
-        print(os.path.join(self.path, "models", filename))
-        self.model = load_learner(os.path.join(self.path, "models", filename), filename)
-        # self.model = create_unet_model(
-        #    resnet34,
-        #    (len(self.codes["LabelName"]) + 1),
-        #    self.img_size,
-
-    #     pretrained=False,
-    # )
-
-    # self.model.load(os.path.join(self.path, "models", filename))
+        self.filename = os.path.join(self.path, "models", filename)
+        self.model = load_learner(self.filename, resnet34)
+        print(os.path.join(self.path, "models", self.filename))
 
     @staticmethod
     def _prepare_img(inputImage):
@@ -50,13 +37,23 @@ class ModelCoordinator:
         batch = torch.unsqueeze(vec, 0)
         return batch
 
+    def debug_label(self, im, pixel_id):
+        res, im = cv2.imencode(".png", im)
+        pix = im.load()
+        for i in range(len(list(im.getdata(band=0)))):
+            x = i % 640
+            y = int(i / 640)
+            if pix[x, y] == pixel_id:
+                pix[x, y] = 255
+        im.show()
+
     def predict(self, inputImage):
-        self.prediction = self.model.predict(inputImage)
-        ##img = self._prepare_img(inputImage)
-        # batch = self._prepare_batch(img)
-        # out = self.model.forward(batch)
-        # out = out.detach().cpu().numpy()
-        return self.prediction
+        prediction = self.model.predict(inputImage)[0]
+        # self.debug_label(np.array(prediction[0]), 1)
+        # prediction.show()
+        print(np.array(prediction).shape)
+        res, im_png = cv2.imencode(".png", np.array(prediction))
+        return im_png.tobytes()
 
     def __init__(self):
         self.load_info()

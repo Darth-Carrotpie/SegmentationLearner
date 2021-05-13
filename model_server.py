@@ -1,24 +1,27 @@
 from datetime import datetime
-
-from fastapi import FastAPI
+import uvicorn
+from io import BytesIO
+import json
+from fastapi.responses import JSONResponse
+from fastapi import FastAPI, UploadFile, File, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
-
-from fastapi.responses import HTMLResponse
-
-
-from server_libs.constants import hero_names, map_names, game_types
-from server_libs.item import Item
-
+import base64
+from pydantic import BaseModel
 from server_libs.backend.mcoordinator import ModelCoordinator
+from server_libs.backend.helper_funcs import label_func, load_image
+
+from server_libs.backend.test_upload import (
+    test_upload,
+    test_text_upload,
+    pretty_print_req,
+)
 
 from starlette.responses import StreamingResponse
 
 api = FastAPI()
-##preds = PredCoordinator()
+
 models = ModelCoordinator()
 
-
-# hard coded for now, later, extract from loaded model:
 
 origins = [
     "http://127.0.0.1",
@@ -32,65 +35,62 @@ api.add_middleware(
 )
 
 
-@api.get("/test")
-def read_root_test():
-    return {
-        "test_response": "OK!",
-        # "map_names": map_names,
-        # "game_types": game_types,
-        # "available_models": available_models,
-    }
-
-
 @api.get("/")
 def read_root():
     return {
-        "hero_names": hero_names,
-        "map_names": map_names,
-        "game_types": game_types,
-        "available_models": models.getAvailableModels(),
+        "root_response": "OK!",
     }
 
 
-# @api.get("/items/{item_id}")
-# def read_item(item_id: int, q: Optional[str] = None):
-#    return {"item_id": item_id, "q": q}
+@api.get("/predict_test")
+def predict_item():
+    test = test_upload()
+    print("test --- sent")
+    resp = {"predict_test": test.text}
+    return resp
 
 
-@api.put("/predict/")
-def predict_item(item: Item):
-    pred = preds.get_pred(item=item, models=models)
-    return {
-        "pred_id": pred.pred_id,
-        "pred_value": pred.value,
-        "current_selections": pred.current_selections,
-        "top_pick_recs": pred.top_pick_recs,
-        "top_ban_recs": pred.top_ban_recs,
-    }
+@api.get("/predict_test_text")
+def predict_item():
+    test = test_text_upload()
+    print("test --- sent")
+    resp = {"predict_test": test.text}
+    return resp
+
+
+class Data(BaseModel):
+    string_stream: str
+
+
+@api.post("/predict_image_text")
+async def image_endpoint_text(request: Request):
+    data = await request.json()
+    print(data)
+    print("request received, waiting to read...")
+    # data = byte_stream.read()
+    print("image read!")
+    loaded_image = load_image(base64.b64decode(data["string_stream"]))
+    print("received image, shape: ", loaded_image.shape)
+    pred_img_bytes = models.predict(loaded_image)
+    print("making a StreamingResponse()...")
+    return StreamingResponse(BytesIO(pred_img_bytes), media_type="image/png")
 
 
 @api.post("/predict_image")
-def image_endpoint(*, screenshot):
-    # Returns a cv2 image array from the document vector
-    pred = preds.get_pred(item=screenshot, models=models)
-    cv2img = my_function(screenshot)
-    res, im_png = cv2.imencode(".png", cv2img)
-    return StreamingResponse(io.BytesIO(im_png.tobytes()), media_type="image/png")
+async def image_endpoint(file: UploadFile = File(...)):
+    print("request received, waiting to read...")
+    data = await file.read()
+    print("image read!")
+    loaded_image = load_image(base64.b64decode(data))
+    print("received image, shape: ", loaded_image.shape)
+    pred_img_bytes = models.predict(loaded_image)
+    print("making a StreamingResponse()...")
+    prep_to_send = base64.b64encode(pred_img_bytes).decode("ascii")
+    # return StreamingResponse(BytesIO(pred_img_bytes), media_type="image/png")
+    payload = json.dumps({"mime": "image/png", "image": prep_to_send}, indent=4)
+    return JSONResponse(content=payload, media_type="image/png")
 
 
-@api.get("/shap/{prediction_id}")
-async def get_shap(prediction_id: str):
-    pred = preds.get_pred(prediction_id=prediction_id)
-    if pred is not None:
-        return HTMLResponse(content=pred.shap, status_code=200)
-    else:
-        return None
-
-
-@api.get("/waterfalls/{prediction_id}")
-async def get_waterfalls(prediction_id: str):
-    pred = preds.get_pred(prediction_id=prediction_id)
-    if pred is not None:
-        return HTMLResponse(content=pred.waterfalls, status_code=200)
-    else:
-        return None
+if __name__ == "__main__":
+    print("starting...")
+    uvicorn.run(api, host="0.0.0.0", port=4200)

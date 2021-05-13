@@ -28,6 +28,20 @@ public class CameraCapture : Singleton<CameraCapture>
             RenderTextureReadWrite.sRGB);
     }
 
+    public byte[] CaptureRend()
+    {
+        Camera Cam = normalCamera;
+        Cam.targetTexture = rendTex;
+        RenderTexture.active = Cam.targetTexture;
+
+        Cam.Render();
+        Texture2D Image = new Texture2D(Cam.targetTexture.width, Cam.targetTexture.height, TextureFormat.RGBA32, false);
+        Image.ReadPixels(new Rect(0, 0, Cam.targetTexture.width, Cam.targetTexture.height), 0, 0);
+        Image.Apply();
+
+        return Image.EncodeToPNG();
+    }
+
     public void SavePics(Camera Cam, string subfolder, TextureFormat format, bool linear)
     {
         //RenderTexture currentRT = RenderTexture.active;
@@ -88,6 +102,10 @@ public class CameraCapture : Singleton<CameraCapture>
         Instance.SavePics(Instance.normalCamera, "screenshots/", TextureFormat.RGBA32, false);
         Instance.SavePics(Instance.labelCamera, "labels/", TextureFormat.R8, true);
         Instance.FileCounter++;
+    }
+    public static byte[] CaptureScreenshot()
+    {
+        return Instance.CaptureRend();
     }
     public static void RemoveCaptured()
     {
