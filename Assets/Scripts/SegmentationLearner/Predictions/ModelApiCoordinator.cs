@@ -11,44 +11,84 @@ public class ModelApiCoordinator : Singleton<ModelApiCoordinator>
     {
         Instance.StartCoroutine(Instance.GetPrediction(imageBytes));
     }
+    IEnumerator GetTestPrediction(byte[] imageBytes)
+    {
+        string encodedText = Convert.ToBase64String(imageBytes);
+
+        string url = "http://127.0.0.1:4200/t";//predict_image";
+        DataClass dataClass = new DataClass();
+        dataClass.mime = "mimey";
+        dataClass.image64 = Convert.ToBase64String (imageBytes);
+        //dataClass.imageBytes = imageBytes;
+
+        string json = JsonUtility.ToJson(dataClass);
+        Debug.Log("send json: "+json);
+        using(UnityWebRequest request = UnityWebRequest.Put(url, json)){
+            request.SetRequestHeader("Content-Type", "application/json");
+            yield return request.SendWebRequest();
+
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(request.error);
+            }
+            else
+            {
+                // Show results as text
+                Debug.Log(request);
+                Debug.Log(request.downloadHandler.text);
+
+                // Or retrieve results as binary data
+                //byte[] results = request.downloadHandler.data;
+
+                //byte[] decodedBytes = Convert.FromBase64String (results);
+                //string decodedText = Encoding.UTF8.GetString(results);
+
+                //byte[] result = request.downloadHandler.data;
+                string resultJson = System.Text.Encoding.Default.GetString(request.downloadHandler.data);
+                Debug.Log(resultJson);
+                DataClass info = JsonUtility.FromJson<DataClass>(resultJson);
+                Debug.Log("mime:"+info.mime);
+                //OverlayCoordinator.RenderToPanel(results);
+            }
+        }
+    }
     IEnumerator GetPrediction(byte[] imageBytes)
     {
         string encodedText = Convert.ToBase64String(imageBytes);
 
-        string url = "http://127.0.0.1:4200/predict_image";
-        var wwwForm = new WWWForm();
-        wwwForm.AddField("data", encodedText);
-        //DataClass dataClass = new DataClass();
-        //dataClass.data = encodedText;
-        //string postData = JsonUtility.ToJson(dataClass);
-        //byte[] bytes = GetBytes(postData);
-        wwwForm.AddBinaryData("screenshot.png", imageBytes, "image/png");
-        //var request = new UnityWebRequest(url, "POST");
-        var request = UnityWebRequest.Post(url, wwwForm);
-        yield return request.SendWebRequest();
+        string url = "http://127.0.0.1:4200/predict_image_text";//predict_image";
+        DataClass dataClass = new DataClass();
+        dataClass.mime = "mimey";
+        dataClass.image64 = Convert.ToBase64String (imageBytes);
+        string json = JsonUtility.ToJson(dataClass);
 
-        if (request.isNetworkError)
-        {
-            Debug.Log(request.error);
-        }
-        else
-        {
-            // Show results as text
-            Debug.Log(request);
-            Debug.Log(request.downloadHandler.text);
+        using(UnityWebRequest request = UnityWebRequest.Put(url, json)){
+            request.SetRequestHeader("Content-Type", "application/json");
+            yield return request.SendWebRequest();
 
-            // Or retrieve results as binary data
-            byte[] results = request.downloadHandler.data;
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(request.error);
+            }
+            else
+            {
+                //byte[] decodedBytes = Convert.FromBase64String (results);
+                //string decodedText = Encoding.UTF8.GetString(results);
 
-            //byte[] decodedBytes = Convert.FromBase64String (results);
-            string decodedText = Encoding.UTF8.GetString(results);
-
-            OverlayCoordinator.RenderToPanel(results);
+                string resultJson = System.Text.Encoding.Default.GetString(request.downloadHandler.data);
+                DataClass info = JsonUtility.FromJson<DataClass>(resultJson);
+                Debug.Log("mime:"+info.mime);
+                Debug.Log("mime:"+info.image64);
+                byte[] decodedBytes = Convert.FromBase64String (info.image64);
+                OverlayCoordinator.RenderToPanel(decodedBytes);
+            }
         }
     }
 }
 [Serializable]
 public class DataClass
 {
-    public string data;
+    public string mime;
+    //public byte[] imageBytes;
+    public string image64;
 }

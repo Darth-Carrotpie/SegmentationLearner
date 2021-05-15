@@ -5,6 +5,8 @@ import json
 from fastapi.responses import JSONResponse
 from fastapi import FastAPI, UploadFile, File, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
+from typing import Optional, List
+
 import base64
 from pydantic import BaseModel
 from server_libs.backend.mcoordinator import ModelCoordinator
@@ -50,6 +52,26 @@ def predict_item():
     return resp
 
 
+class DataClass(BaseModel):
+    mime: Optional[str] = None
+    image64: Optional[str] = None
+    # imageBytes: List[bytes] = None
+    # class Config:
+    #    arbitrary_types_allowed = True
+
+
+@api.put("/t")
+async def predict_itemt(item: DataClass):
+    print(item.mime)
+    print(item.image64[:50])
+    payload = {
+        "mime": "image/png",
+        "image64": "imgage_outpout",
+    }
+    print(payload)
+    return JSONResponse(content=payload, media_type="application/json")
+
+
 @api.get("/predict_test_text")
 def predict_item():
     test = test_text_upload()
@@ -62,18 +84,29 @@ class Data(BaseModel):
     string_stream: str
 
 
-@api.post("/predict_image_text")
-async def image_endpoint_text(request: Request):
-    data = await request.json()
-    print(data)
+@api.put("/predict_image_text")
+async def image_endpoint_text(item: DataClass):
+    print(item.mime)
+    print(item.image64[:50])
     print("request received, waiting to read...")
     # data = byte_stream.read()
     print("image read!")
-    loaded_image = load_image(base64.b64decode(data["string_stream"]))
+    loaded_image = load_image(base64.b64decode(item.image64))
     print("received image, shape: ", loaded_image.shape)
     pred_img_bytes = models.predict(loaded_image)
-    print("making a StreamingResponse()...")
-    return StreamingResponse(BytesIO(pred_img_bytes), media_type="image/png")
+    print("len:", len(pred_img_bytes))
+    # print("len:", pred_img_bytes.getbuffer().nbytes)
+    # prep_to_send = base64.b64encode(pred_img_bytes.read()).decode("ascii")
+    prep_to_send = base64.b64encode(pred_img_bytes).decode("ascii")
+    print("len:", len(prep_to_send))
+    print(prep_to_send)
+    print("making a JSONResponse()...")
+    payload = {
+        "mime": "image/png",
+        "image64": prep_to_send,
+    }
+    print(str(payload))
+    return JSONResponse(content=payload, media_type="application/json")
 
 
 @api.post("/predict_image")

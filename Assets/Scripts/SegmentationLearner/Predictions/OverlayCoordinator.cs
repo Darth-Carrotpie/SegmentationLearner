@@ -8,8 +8,8 @@ public class OverlayCoordinator : Singleton<OverlayCoordinator>
     public static void RenderToPanel(byte[] inputBytes)
     {
         Debug.Log(inputBytes.Length);
-        Texture2D tex = new Texture2D(64, 64, TextureFormat.RGBA32, false);
-        tex.LoadRawTextureData(inputBytes);
+        Texture2D tex = new Texture2D(64, 64, TextureFormat.R8, true);
+        tex.LoadImage(inputBytes);
         tex.Apply();
         Instance.image.texture = tex;
         //GetComponent<Renderer>().material.mainTexture = tex;

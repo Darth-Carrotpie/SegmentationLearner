@@ -44,7 +44,7 @@ def test_upload():
         "file": (
             "screenshot.png",
             base64.b64encode(path_to_image_bytes(_test_upload_file)),
-            "application/octet-stream",
+            "image/png",
         )
     }
 

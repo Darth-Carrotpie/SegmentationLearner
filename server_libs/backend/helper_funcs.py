@@ -36,3 +36,10 @@ def pred_to_bytes(pred):
     # dataBytesIO = BytesIO(byteImg)
 
     return byteImg
+
+
+def serve_pil_image(pil_img):
+    img_io = BytesIO()
+    pil_img.save(img_io, "PNG", quality=95)
+    img_io.seek(0)
+    return img_io

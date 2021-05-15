@@ -8,6 +8,8 @@ import numpy as np
 import torch
 from PIL import Image
 
+from server_libs.backend.helper_funcs import serve_pil_image
+
 
 class ModelCoordinator:
     def load_info(self):
@@ -51,8 +53,11 @@ class ModelCoordinator:
         prediction = self.model.predict(inputImage)[0]
         # self.debug_label(np.array(prediction[0]), 1)
         # prediction.show()
-        print(np.array(prediction).shape)
-        res, im_png = cv2.imencode(".png", np.array(prediction))
+        print("predicted shape:", np.array(prediction).shape)
+        im = Image.fromarray(np.uint8(prediction))
+        res, im_png = cv2.imencode(".png", np.array(prediction).astype(np.uint8))
+        # return serve_pil_image(im)
+        print(im_png.shape)
         return im_png.tobytes()
 
     def __init__(self):
