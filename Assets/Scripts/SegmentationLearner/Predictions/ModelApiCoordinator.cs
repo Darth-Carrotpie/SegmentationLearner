@@ -78,7 +78,9 @@ public class ModelApiCoordinator : Singleton<ModelApiCoordinator>
                 string resultJson = System.Text.Encoding.Default.GetString(request.downloadHandler.data);
                 DataClass info = JsonUtility.FromJson<DataClass>(resultJson);
                 Debug.Log("mime:"+info.mime);
-                Debug.Log("mime:"+info.image64);
+                Debug.Log("image64:"+info.image64);
+                Debug.Log("labels:"+info.labels);
+                Debug.Log("confidences:"+info.confidences);
                 byte[] decodedBytes = Convert.FromBase64String (info.image64);
                 OverlayCoordinator.RenderToPanel(decodedBytes);
             }
@@ -91,4 +93,6 @@ public class DataClass
     public string mime;
     //public byte[] imageBytes;
     public string image64;
+    public int[] labels;
+    public float[] confidences;
 }

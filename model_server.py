@@ -93,19 +93,21 @@ async def image_endpoint_text(item: DataClass):
     print("image read!")
     loaded_image = load_image(base64.b64decode(item.image64))
     print("received image, shape: ", loaded_image.shape)
-    pred_img_bytes = models.predict(loaded_image)
-    print("len:", len(pred_img_bytes))
-    # print("len:", pred_img_bytes.getbuffer().nbytes)
-    # prep_to_send = base64.b64encode(pred_img_bytes.read()).decode("ascii")
-    prep_to_send = base64.b64encode(pred_img_bytes).decode("ascii")
+    pred_img_bytes, labels, confidences = models.predict(loaded_image)
+    # print("len:", len(pred_img_bytes))
+    print("len:", pred_img_bytes.getbuffer().nbytes)
+    prep_to_send = base64.b64encode(pred_img_bytes.read()).decode("ascii")
+    # prep_to_send = base64.b64encode(pred_img_bytes).decode("ascii")
     print("len:", len(prep_to_send))
-    print(prep_to_send)
+    print(prep_to_send[:50])
     print("making a JSONResponse()...")
     payload = {
         "mime": "image/png",
+        "labels": labels.tolist(),
+        "confidences": confidences.tolist(),
         "image64": prep_to_send,
     }
-    print(str(payload))
+    print(str(payload)[:150])
     return JSONResponse(content=payload, media_type="application/json")
 
 

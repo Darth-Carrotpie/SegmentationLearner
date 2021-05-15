@@ -1,5 +1,5 @@
 import os
-from fastai.vision.all import resnet34
+from fastai.vision.all import resnet34, PILImage
 from fastai.learner import load_learner, load_model
 import pandas as pd
 import pathlib
@@ -24,21 +24,6 @@ class ModelCoordinator:
         self.model = load_learner(self.filename, resnet34)
         print(os.path.join(self.path, "models", self.filename))
 
-    @staticmethod
-    def _prepare_img(inputImage):
-        arr = np.asarray(bytearray(inputImage), dtype=np.uint8)
-        img = cv2.imdecode(arr, -1)
-        img = cv2.resize(img, (28, 28)) - 255
-        # img = albumentations.Normalize()(image=img)["image"]
-        return img
-
-    @staticmethod
-    def _prepare_batch(img):
-        img = np.moveaxis(img, -1, 0)
-        vec = torch.from_numpy(img)
-        batch = torch.unsqueeze(vec, 0)
-        return batch
-
     def debug_label(self, im, pixel_id):
         res, im = cv2.imencode(".png", im)
         pix = im.load()
@@ -50,13 +35,33 @@ class ModelCoordinator:
         im.show()
 
     def predict(self, inputImage):
-        prediction = self.model.predict(inputImage)[0]
+        (y, x, z) = inputImage.shape
+        model_output = self.model.predict(inputImage)
+        prediction = model_output[0]
+        confidences = model_output[2]
+        print("confidences : ", confidences.shape)
+        # print("confidences : ", confidences[:, 1, 1])
+        conf_max_cats = np.argmax(confidences, axis=0)
+        print("conf_max_cats : ", conf_max_cats.shape)
+        # print("conf_max_cats : ", conf_max_cats)
+
+        conf_max = np.amax(np.array(confidences), axis=0)
+        conf_max = np.around(conf_max, 2)
+        print("conf_max : ", conf_max.shape)
+        # print("conf_max : ", conf_max)
+
+        pred_img = PILImage.create(prediction)
+        labels = np.unique(prediction)
+        print("labels found: ", labels)
+        p_resized_back = pred_img.resize((x, y), resample=Image.BOX)
         # self.debug_label(np.array(prediction[0]), 1)
         # prediction.show()
+        (y, x) = np.array(prediction).shape
         print("predicted shape:", np.array(prediction).shape)
-        im = Image.fromarray(np.uint8(prediction))
-        res, im_png = cv2.imencode(".png", np.array(prediction).astype(np.uint8))
-        # return serve_pil_image(im)
+        print("resized pred shape:", np.array(p_resized_back).shape)
+        # im = Image.fromarray(np.uint8(prediction))
+        # res, im_png = cv2.imencode(".png", np.array(prediction).astype(np.uint8))
+        return serve_pil_image(p_resized_back), labels, conf_max
         print(im_png.shape)
         return im_png.tobytes()
 
