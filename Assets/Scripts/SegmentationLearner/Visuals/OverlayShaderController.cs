@@ -2,24 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class OverlayShaderController : Singleton<OverlayShaderController>
-{
-    public RawImage imageRend;
-    void Start()
-    {
-        if(imageRend == null) imageRend = GetComponent<RawImage>();
+public class OverlayShaderController : MonoBehaviour {
+    Image imageRend;
+    public string labelName;
+    void Awake() {
+        if (imageRend == null)imageRend = GetComponent<Image>();
     }
 
-    public static void SetLabelColor(Color color, int label, float alpha){
-        Instance.SetMatValues(color, label, alpha);
+    public void SetColorValues(Color color, int label, string name) {
+        imageRend.material = new Material(imageRend.material);
+        imageRend.material.SetFloat("LabelValue", label);
+        imageRend.material.SetColor("DisplayColor", color);
+        labelName = name;
     }
 
-    void SetMatValues(Color color, int label, float alpha)
-    {
-        string labelStr = "Label"+label.ToString();
-        imageRend.material.SetFloat(labelStr, label);
-        string colorStr = "Label"+label.ToString();
-        imageRend.material.SetColor(colorStr, color);
+    public void SetOpacity(float alpha) {
         imageRend.material.SetFloat("Aplha", alpha);
     }
 }
