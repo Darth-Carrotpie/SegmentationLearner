@@ -91,7 +91,7 @@ async def image_endpoint_text(item: DataClass):
     print("encoded image len:", len(prep_to_send))
     payload = {
         "mime": "image/png",
-        "labels": labels.tolist(),
+        "labels": labels,
         "image64": prep_to_send,
         "confidences": confidences,
     }

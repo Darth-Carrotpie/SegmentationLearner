@@ -59,3 +59,17 @@ def draw_preds_image(preds, colors, labels):
 
 def replace_color(img_arr, source, target):
     return np.where(img_arr == source, np.array(target), img_arr)
+
+
+def label_coords(preds, labels):
+    payload = []
+
+    for label in labels:
+        rows, cols = np.where(preds == label)
+        lb = {
+            "label": int(label - 1),
+            "labelPositionX": int(cols.mean()),
+            "labelPositionY": int(rows.mean()),
+        }
+        payload.append(lb)
+    return payload

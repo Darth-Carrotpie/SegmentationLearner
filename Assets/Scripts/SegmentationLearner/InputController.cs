@@ -12,8 +12,6 @@ public class InputController : MonoBehaviour {
                 EventCoordinator.TriggerEvent(EventName.System.StartInference(), GameMessage.Write());
             else
                 EventCoordinator.TriggerEvent(EventName.System.StopInference(), GameMessage.Write());
-            LabelMaskController.IsolateLabelMaskGroup(0);
-            OverlayColorController.Show(true);
         }
         if (Input.GetKeyDown(KeyCode.BackQuote)) {
             LabelMaskController.IsolateLabelMaskGroup(0);

@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 public class InferenceController : MonoBehaviour {
 
     bool runInference = false;
-    int skipFrame = 30;
+    int skipFrame = 60;
 
     public void Start(){
         EventCoordinator.StartListening(EventName.System.StartInference(), OnInfStart);
@@ -16,10 +16,13 @@ public class InferenceController : MonoBehaviour {
     }
     void OnInfStart(GameMessage message){
         runInference = true;
+        LabelMaskController.IsolateLabelMaskGroup(0);
+        OverlayColorController.Show(true);
         StartCoroutine(RunInference());
     }
     void OnInfStop(GameMessage message){
         runInference = false;
+        LabelTextFactory.HideAllTexts();
     }
 
 

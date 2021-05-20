@@ -12,6 +12,7 @@ from server_libs.backend.helper_funcs import (
     serve_pil_image,
     serve_confidence_map,
     draw_preds_image,
+    label_coords,
 )
 
 
@@ -44,19 +45,20 @@ class ModelCoordinator:
         prediction = model_output[0]
         confidences = model_output[2]
         conf_max_cats = np.argmax(confidences, axis=0)
-        print("conf_max_cats : ", conf_max_cats.shape)
+        # print("conf_max_cats : ", conf_max_cats.shape)
 
         conf_max = np.amax(np.array(confidences), axis=0)
         conf_max = np.around(conf_max, 2)
-        print("conf_max : ", conf_max.shape)
+        # print("conf_max : ", conf_max.shape)
         labels = np.unique(prediction)
         pred_img = draw_preds_image(prediction, self.labelCoord.colors, labels)
 
         p_resized_back = pred_img.resize((x, y), resample=Image.BOX)
         (y, x) = np.array(prediction).shape
-        print("predicted shape:", np.array(prediction).shape)
-        print("resized pred shape:", np.array(p_resized_back).shape)
-        return serve_pil_image(p_resized_back), labels, serve_confidence_map(conf_max)
+        # print("predicted shape:", np.array(prediction).shape)
+        # print("resized pred shape:", np.array(p_resized_back).shape)
+        coords = label_coords(prediction, labels)
+        return serve_pil_image(p_resized_back), coords, serve_confidence_map(conf_max)
 
     def __init__(self, _labelCoord):
         self.load_info()
