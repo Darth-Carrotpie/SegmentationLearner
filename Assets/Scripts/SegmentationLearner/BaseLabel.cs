@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 [System.Serializable]
 public class BaseLabel {
-    public Color encoderColor;
+    public Color32 encoderColor;
 #if UNITY_EDITOR
     [StringInList(typeof(PropertyDrawersHelper), "AllLabelNames")]
 #endif

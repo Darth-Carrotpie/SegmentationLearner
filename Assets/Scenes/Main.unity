@@ -460,6 +460,163 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   labelName: items_bowl
+--- !u!1 &187491289
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 187491293}
+  - component: {fileID: 187491292}
+  - component: {fileID: 187491290}
+  - component: {fileID: 187491291}
+  m_Layer: 5
+  m_Name: RawImage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &187491290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 187491289}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 2800000, guid: 41227c9b726c83be4b667d6dd7dba52c, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!114 &187491291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 187491289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd4a63e28f8c069429fc582cc6dba8af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _persistent: 0
+--- !u!222 &187491292
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 187491289}
+  m_CullTransparentMesh: 1
+--- !u!224 &187491293
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 187491289}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1001908260}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &220822679
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 220822680}
+  - component: {fileID: 220822683}
+  - component: {fileID: 220822682}
+  - component: {fileID: 220822681}
+  m_Layer: 0
+  m_Name: API Components
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &220822680
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 220822679}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 670712934}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &220822681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 220822679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7854d98aab218b44bfb106523f96e95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _persistent: 0
+--- !u!114 &220822682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 220822679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a80293f88aa34943acef5f436f97ec4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &220822683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 220822679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ac5a373ece1e885c8f91e87104e05a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _persistent: 0
 --- !u!850595691 &238896880
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -1532,10 +1689,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 670712934}
-  - component: {fileID: 670712933}
   - component: {fileID: 670712932}
   - component: {fileID: 670712935}
   - component: {fileID: 670712936}
+  - component: {fileID: 670712937}
   m_Layer: 0
   m_Name: Predictions
   m_TagString: Untagged
@@ -1555,19 +1712,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e94a35ee03e7dfcab86bf99ce9d17c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &670712933
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 670712931}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ac5a373ece1e885c8f91e87104e05a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _persistent: 0
 --- !u!4 &670712934
 Transform:
   m_ObjectHideFlags: 0
@@ -1578,7 +1722,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.1743813, y: -14.3136015, z: 21.167055}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 220822680}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1595,9 +1740,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _persistent: 0
-  imagePrefab: {fileID: 2507463083810275089, guid: b561740d2d059ac4e941a8923edeb560, type: 3}
-  overlayContainer: {fileID: 1001908260}
-  images: []
+  singleImage: {fileID: 187491290}
 --- !u!114 &670712936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1611,6 +1754,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   labelName: 
+--- !u!114 &670712937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670712931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dc625b14e375494bae57d1836d5f2c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _persistent: 0
+  maskState:
+    list: []
+    indexes: 
 --- !u!43 &678772964
 Mesh:
   m_ObjectHideFlags: 0
@@ -3629,7 +3788,9 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1693687480}
+  - {fileID: 187491293}
   m_Father: {fileID: 1404777642}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7024,54 +7185,100 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _persistent: 0
   buildingLabels:
-  - encoderColor: {r: 0, g: 0.48432934, b: 0.6509434, a: 1}
+  - encoderColor:
+      serializedVersion: 2
+      rgba: 0
     labelName: building_wall
-  - encoderColor: {r: 0, g: 0.26948223, b: 0.47058824, a: 1}
+  - encoderColor:
+      serializedVersion: 2
+      rgba: 0
     labelName: building_floor
-  - encoderColor: {r: 0, g: 0.6981132, b: 0.6494213, a: 1}
+  - encoderColor:
+      serializedVersion: 2
+      rgba: 0
     labelName: building_ceiling
-  - encoderColor: {r: 0, g: 0.54901963, b: 0.49497667, a: 1}
+  - encoderColor:
+      serializedVersion: 2
+      rgba: 0
     labelName: building_door
   furnitureLabels:
-  - encoderColor: {r: 0.27673876, g: 0.43137255, b: 0, a: 1}
+  - encoderColor:
+      serializedVersion: 2
+      rgba: 0
     labelName: furniture_doubleBed
-  - encoderColor: {r: 0.4710449, g: 0.50980395, b: 0, a: 1}
+  - encoderColor:
+      serializedVersion: 2
+      rgba: 0
     labelName: furniture_armchair
-  - encoderColor: {r: 1, g: 0.7862008, b: 0.6289308, a: 1}
+  - encoderColor:
+      serializedVersion: 2
+      rgba: 0
     labelName: furniture_nightTable
-  - encoderColor: {r: 1, g: 0.8742138, b: 0.8742138, a: 1}
+  - encoderColor:
+      serializedVersion: 2
+      rgba: 0
     labelName: furniture_tvStand
-  - encoderColor: {r: 0.5188679, g: 0.23822235, b: 0.23822235, a: 1}
+  - encoderColor:
+      serializedVersion: 2
+      rgba: 0
     labelName: furniture_shelf
-  - encoderColor: {r: 0.990566, g: 0.5108579, b: 0.5108579, a: 1}
+  - encoderColor:
+      serializedVersion: 2
+      rgba: 0
     labelName: furniture_commode
-  - encoderColor: {r: 0.9433962, g: 0.71793044, b: 0.71793044, a: 1}
+  - encoderColor:
+      serializedVersion: 2
+      rgba: 0
     labelName: furniture_rug
-  - encoderColor: {r: 0.6792453, g: 0.46564612, b: 0.46564612, a: 1}
+  - encoderColor:
+      serializedVersion: 2
+      rgba: 0
     labelName: furniture_drawer
-  - encoderColor: {r: 0.7830189, g: 0.3299513, b: 0.3299513, a: 1}
+  - encoderColor:
+      serializedVersion: 2
+      rgba: 0
     labelName: furniture_painting
-  - encoderColor: {r: 0.7924528, g: 0.6303754, b: 0.21431106, a: 1}
+  - encoderColor:
+      serializedVersion: 2
+      rgba: 0
     labelName: furniture_clock
-  - encoderColor: {r: 0.8962264, g: 0.7397999, b: 0.33538026, a: 1}
+  - encoderColor:
+      serializedVersion: 2
+      rgba: 0
     labelName: furniture_floor_lamp
   itemLabels:
-  - encoderColor: {r: 0.7075472, g: 0.0845496, b: 0.46046767, a: 1}
+  - encoderColor:
+      serializedVersion: 2
+      rgba: 0
     labelName: items_nightLamp
-  - encoderColor: {r: 0.4557604, g: 0, b: 0.50980395, a: 1}
+  - encoderColor:
+      serializedVersion: 2
+      rgba: 0
     labelName: items_vase
-  - encoderColor: {r: 0.255295, g: 0, b: 0.54901963, a: 1}
+  - encoderColor:
+      serializedVersion: 2
+      rgba: 0
     labelName: items_bowl
-  - encoderColor: {r: 0, g: 0.35921717, b: 0.5882353, a: 1}
+  - encoderColor:
+      serializedVersion: 2
+      rgba: 0
     labelName: items_mug
-  - encoderColor: {r: 0.33036664, g: 0.579955, b: 0.9056604, a: 1}
+  - encoderColor:
+      serializedVersion: 2
+      rgba: 0
     labelName: items_plate
-  - encoderColor: {r: 0.45995012, g: 0.6596561, b: 0.9622642, a: 1}
+  - encoderColor:
+      serializedVersion: 2
+      rgba: 0
     labelName: items_tv
-  - encoderColor: {r: 0.45882356, g: 0.8779527, b: 0.9607843, a: 1}
+  - encoderColor:
+      serializedVersion: 2
+      rgba: 0
     labelName: items_phone
   animalsLabels:
-  - encoderColor: {r: 0.78431374, g: 0.78431374, b: 0, a: 1}
+  - encoderColor:
+      serializedVersion: 2
+      rgba: 0
     labelName: live_dog
 --- !u!4 &1679663119
 Transform:
@@ -7087,6 +7294,92 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1693687479
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1693687480}
+  - component: {fileID: 1693687483}
+  - component: {fileID: 1693687482}
+  - component: {fileID: 1693687481}
+  m_Layer: 5
+  m_Name: HideBackground
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1693687480
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693687479}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1001908260}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1693687481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693687479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a9a81361ec337749bd5add99d8a5ac0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _persistent: 0
+--- !u!114 &1693687482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693687479}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 0}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &1693687483
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693687479}
+  m_CullTransparentMesh: 1
 --- !u!1001 &1725530566
 PrefabInstance:
   m_ObjectHideFlags: 0

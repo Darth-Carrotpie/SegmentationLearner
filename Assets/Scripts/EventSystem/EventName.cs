@@ -3,10 +3,10 @@ using System.Linq;
 
 public class EventName {
     public class UI {
-        public static string ShowScoreScreen() { return "UI_ShowScoreScreen"; }
+        public static string LabelMaskChanged() { return "UI_LabelMaskChanged"; }
         public static string ScoreScreenShown() { return "UI_ScoreScreenShown"; }
         public static string ShowCooldownNotReady() { return "ShowCooldownNotReady"; }
-        public static List<string> Get() { return new List<string> { ShowScoreScreen(), ScoreScreenShown(), ShowCooldownNotReady() }; }
+        public static List<string> Get() { return new List<string> { LabelMaskChanged(), ScoreScreenShown(), ShowCooldownNotReady() }; }
     }
 
     public class System {
@@ -18,18 +18,21 @@ public class EventName {
             public static string PostElimination() { return "System_PostElimination"; }
             public static List<string> Get() { return new List<string> { ProfileCreated(), ProfileUpdate(), PlayerCardsSorted(), Eliminated() }; }
         }
-        public static string SceneLoaded() { return "SceneLoaded"; }
+        public static string StartInference() { return "System_StartInference"; }
+        public static string StopInference() { return "System_StopInference"; }
         public static List<string> Get() {
             return new List<string> {
                 //MapLayoutChanged(),
                 //NextScene(), LoadScene(),s
-                SceneLoaded()
+                StartInference(),
+                StopInference(),
             }.Concat(Player.Get()).ToList();
         }
     }
     public class AI {
+        public static string UpdateOverlay() { return "AI_UpdateOverlay"; }
         public static string None() { return null; }
-        public static List<string> Get() { return new List<string> { None() }; }
+        public static List<string> Get() { return new List<string> { UpdateOverlay(), None() }; }
     }
 
     public static List<string> Get() {

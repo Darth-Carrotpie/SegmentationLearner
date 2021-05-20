@@ -22,9 +22,7 @@ public class EventChain : MonoBehaviour {
     void OnStartGame(GameMessage msg) {
         //EventCoordinator.TriggerEvent(EventName.System.Environment.Initialized(), msg);
     }
-    void OnEndMatch(GameMessage msg) {
-        EventCoordinator.TriggerEvent(EventName.UI.ShowScoreScreen(), msg);
-    }
+
     void OnPlayerEliminated(GameMessage msg) {
         EventCoordinator.TriggerEvent(EventName.System.Player.PostElimination(), msg);
     }
