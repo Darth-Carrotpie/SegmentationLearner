@@ -5,9 +5,10 @@ using UnityEngine.UI;
 
 public class OverlayColorController : Singleton<OverlayColorController> {
     RawImage imageRend;
-    float currentOpacity = .5f;
+    float currentOpacity = .4f;
     void Awake() {
         if (imageRend == null)imageRend = GetComponent<RawImage>();
+        imageRend.color = new Color(1, 1, 1, currentOpacity);
     }
 
     public static void IncreaseOpacity() {

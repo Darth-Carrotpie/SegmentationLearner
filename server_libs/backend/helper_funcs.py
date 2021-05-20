@@ -22,8 +22,6 @@ def path_to_image_bytes(path):
     byteImg.save(byteImgIO, "PNG")
     byteImgIO.seek(0)
     byteImg = byteImgIO.read()
-    # dataBytesIO = BytesIO(byteImg)
-
     return byteImg
 
 
@@ -33,8 +31,6 @@ def pred_to_bytes(pred):
     byteImg.save(byteImgIO, "PNG")
     byteImgIO.seek(0)
     byteImg = byteImgIO.read()
-    # dataBytesIO = BytesIO(byteImg)
-
     return byteImg
 
 
@@ -43,3 +39,23 @@ def serve_pil_image(pil_img):
     pil_img.save(img_io, "PNG", quality=95)
     img_io.seek(0)
     return img_io
+
+
+def serve_confidence_map(confs):
+    neg_img = np.subtract(1, confs)
+    neg_img = np.clip(neg_img, 0.6, 1)
+    heatmap_image = PILImage.create(np.uint8(neg_img * 255))
+
+    return serve_pil_image(heatmap_image)
+
+
+def draw_preds_image(preds, colors, labels):
+    preds_4d = np.repeat(preds[..., np.newaxis], 4, axis=2)
+    preds_4d = np.array(preds_4d).astype(np.uint8)
+    for label in labels:
+        preds_4d = replace_color(preds_4d, label, colors[label - 1].GetTuple())
+    return PILImage.create(np.uint8(preds_4d))
+
+
+def replace_color(img_arr, source, target):
+    return np.where(img_arr == source, np.array(target), img_arr)

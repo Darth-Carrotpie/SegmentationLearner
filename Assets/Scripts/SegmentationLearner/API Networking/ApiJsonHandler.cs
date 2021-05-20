@@ -18,7 +18,7 @@ public class ApiJsonHandler : Singleton<ApiJsonHandler> {
             else
                 labelClass.colors[labelClassIndex] = new Color32(0, 0, 0, 0);
 
-            Debug.Log(pair.Key.encoderColor + " " + pair.Value + " " + pair.Key.labelName);
+            //Debug.Log(pair.Key.encoderColor + " " + pair.Value + " " + pair.Key.labelName);
             labelClassIndex += 1;
         }
 

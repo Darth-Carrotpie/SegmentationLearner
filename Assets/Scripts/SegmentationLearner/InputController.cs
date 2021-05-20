@@ -12,8 +12,12 @@ public class InputController : MonoBehaviour {
                 EventCoordinator.TriggerEvent(EventName.System.StartInference(), GameMessage.Write());
             else
                 EventCoordinator.TriggerEvent(EventName.System.StopInference(), GameMessage.Write());
+            LabelMaskController.IsolateLabelMaskGroup(0);
+            OverlayColorController.Show(true);
         }
-
+        if (Input.GetKeyDown(KeyCode.BackQuote)) {
+            LabelMaskController.IsolateLabelMaskGroup(0);
+        }
         if (Input.GetKeyDown(KeyCode.F1)) {
             LabelMaskController.IsolateLabelMaskGroup(1);
         }
@@ -34,7 +38,6 @@ public class InputController : MonoBehaviour {
         }
 
         if (Input.GetKeyDown(KeyCode.E)) {
-            ApiCoordinator.Predict(CameraCapture.CaptureScreenshot());
             OverlayColorController.ChangeShowState();
         }
 

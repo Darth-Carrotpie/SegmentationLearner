@@ -5,11 +5,12 @@ import json
 from fastapi.responses import JSONResponse
 from fastapi import FastAPI, UploadFile, File, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
-from typing import Optional, List
+
+from server_libs.comm_classes import DataClass, LabelClass
 
 import base64
-from pydantic import BaseModel
 from server_libs.backend.mcoordinator import ModelCoordinator
+from server_libs.backend.lcoordinator import LabelCoordinator
 from server_libs.backend.helper_funcs import label_func, load_image
 
 from server_libs.backend.test_upload import (
@@ -22,8 +23,8 @@ from starlette.responses import StreamingResponse
 
 api = FastAPI()
 
-models = ModelCoordinator()
-
+labelCoord = LabelCoordinator()
+models = ModelCoordinator(labelCoord)
 
 origins = [
     "http://127.0.0.1",
@@ -52,24 +53,16 @@ def predict_item():
     return resp
 
 
-class DataClass(BaseModel):
-    mime: Optional[str] = None
-    image64: Optional[str] = None
-    # imageBytes: List[bytes] = None
-    # class Config:
-    #    arbitrary_types_allowed = True
-
-
-@api.put("/t")
-async def predict_itemt(item: DataClass):
+@api.put("/set_label_colors")
+def predict_itemt(item: LabelClass):
     print(item.mime)
-    print(item.image64[:50])
-    payload = {
-        "mime": "image/png",
-        "image64": "imgage_outpout",
+    print(item.labels[:5])
+    print(item.colors[:5])
+    labelCoord.UpdateMaskVals(item.labels)
+    labelCoord.SetupColors(item.colors)
+    return {
+        "set_label_colors": "OK!",
     }
-    print(payload)
-    return JSONResponse(content=payload, media_type="application/json")
 
 
 @api.get("/predict_test_text")
@@ -78,10 +71,6 @@ def predict_item():
     print("test --- sent")
     resp = {"predict_test": test.text}
     return resp
-
-
-class Data(BaseModel):
-    string_stream: str
 
 
 @api.put("/predict_image_text")
@@ -97,15 +86,14 @@ async def image_endpoint_text(item: DataClass):
     # print("len:", len(pred_img_bytes))
     print("len:", pred_img_bytes.getbuffer().nbytes)
     prep_to_send = base64.b64encode(pred_img_bytes.read()).decode("ascii")
+    confidences = base64.b64encode(confidences.read()).decode("ascii")
     # prep_to_send = base64.b64encode(pred_img_bytes).decode("ascii")
-    print("len:", len(prep_to_send))
-    print(prep_to_send[:50])
-    print("making a JSONResponse()...")
+    print("encoded image len:", len(prep_to_send))
     payload = {
         "mime": "image/png",
         "labels": labels.tolist(),
-        "confidences": confidences.tolist(),
         "image64": prep_to_send,
+        "confidences": confidences,
     }
     print(str(payload)[:150])
     return JSONResponse(content=payload, media_type="application/json")

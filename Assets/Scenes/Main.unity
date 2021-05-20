@@ -1693,6 +1693,7 @@ GameObject:
   - component: {fileID: 670712935}
   - component: {fileID: 670712936}
   - component: {fileID: 670712937}
+  - component: {fileID: 670712933}
   m_Layer: 0
   m_Name: Predictions
   m_TagString: Untagged
@@ -1712,6 +1713,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e94a35ee03e7dfcab86bf99ce9d17c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &670712933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670712931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14ae4e48609a06148b7ffc6bb9ecc723, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _persistent: 0
 --- !u!4 &670712934
 Transform:
   m_ObjectHideFlags: 0
@@ -7187,98 +7201,98 @@ MonoBehaviour:
   buildingLabels:
   - encoderColor:
       serializedVersion: 2
-      rgba: 0
+      rgba: 4290347103
     labelName: building_wall
   - encoderColor:
       serializedVersion: 2
-      rgba: 0
+      rgba: 4292702780
     labelName: building_floor
   - encoderColor:
       serializedVersion: 2
-      rgba: 0
+      rgba: 4286069012
     labelName: building_ceiling
   - encoderColor:
       serializedVersion: 2
-      rgba: 0
+      rgba: 4288615462
     labelName: building_door
   furnitureLabels:
   - encoderColor:
       serializedVersion: 2
-      rgba: 0
+      rgba: 4281779092
     labelName: furniture_doubleBed
   - encoderColor:
       serializedVersion: 2
-      rgba: 0
+      rgba: 4280535229
     labelName: furniture_armchair
   - encoderColor:
       serializedVersion: 2
-      rgba: 0
+      rgba: 4278225973
     labelName: furniture_nightTable
   - encoderColor:
       serializedVersion: 2
-      rgba: 0
+      rgba: 4279477366
     labelName: furniture_tvStand
   - encoderColor:
       serializedVersion: 2
-      rgba: 0
+      rgba: 4287883098
     labelName: furniture_shelf
   - encoderColor:
       serializedVersion: 2
-      rgba: 0
+      rgba: 4283940447
     labelName: furniture_commode
   - encoderColor:
       serializedVersion: 2
-      rgba: 0
+      rgba: 4282023949
     labelName: furniture_rug
   - encoderColor:
       serializedVersion: 2
-      rgba: 0
+      rgba: 4284726749
     labelName: furniture_drawer
   - encoderColor:
       serializedVersion: 2
-      rgba: 0
+      rgba: 4292214153
     labelName: furniture_painting
   - encoderColor:
       serializedVersion: 2
-      rgba: 0
+      rgba: 4285319267
     labelName: furniture_clock
   - encoderColor:
       serializedVersion: 2
-      rgba: 0
+      rgba: 4283596096
     labelName: furniture_floor_lamp
   itemLabels:
   - encoderColor:
       serializedVersion: 2
-      rgba: 0
+      rgba: 4282122372
     labelName: items_nightLamp
   - encoderColor:
       serializedVersion: 2
-      rgba: 0
+      rgba: 4284285108
     labelName: items_vase
   - encoderColor:
       serializedVersion: 2
-      rgba: 0
+      rgba: 4281992064
     labelName: items_bowl
   - encoderColor:
       serializedVersion: 2
-      rgba: 0
+      rgba: 4284287850
     labelName: items_mug
   - encoderColor:
       serializedVersion: 2
-      rgba: 0
+      rgba: 4283587996
     labelName: items_plate
   - encoderColor:
       serializedVersion: 2
-      rgba: 0
+      rgba: 4283453625
     labelName: items_tv
   - encoderColor:
       serializedVersion: 2
-      rgba: 0
+      rgba: 4289875121
     labelName: items_phone
   animalsLabels:
   - encoderColor:
       serializedVersion: 2
-      rgba: 0
+      rgba: 4278246911
     labelName: live_dog
 --- !u!4 &1679663119
 Transform:

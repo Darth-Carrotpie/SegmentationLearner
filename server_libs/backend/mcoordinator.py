@@ -8,7 +8,11 @@ import numpy as np
 import torch
 from PIL import Image
 
-from server_libs.backend.helper_funcs import serve_pil_image
+from server_libs.backend.helper_funcs import (
+    serve_pil_image,
+    serve_confidence_map,
+    draw_preds_image,
+)
 
 
 class ModelCoordinator:
@@ -39,35 +43,25 @@ class ModelCoordinator:
         model_output = self.model.predict(inputImage)
         prediction = model_output[0]
         confidences = model_output[2]
-        print("confidences : ", confidences.shape)
-        # print("confidences : ", confidences[:, 1, 1])
         conf_max_cats = np.argmax(confidences, axis=0)
         print("conf_max_cats : ", conf_max_cats.shape)
-        # print("conf_max_cats : ", conf_max_cats)
 
         conf_max = np.amax(np.array(confidences), axis=0)
         conf_max = np.around(conf_max, 2)
         print("conf_max : ", conf_max.shape)
-        # print("conf_max : ", conf_max)
-
-        pred_img = PILImage.create(prediction)
         labels = np.unique(prediction)
-        print("labels found: ", labels)
+        pred_img = draw_preds_image(prediction, self.labelCoord.colors, labels)
+
         p_resized_back = pred_img.resize((x, y), resample=Image.BOX)
-        # self.debug_label(np.array(prediction[0]), 1)
-        # prediction.show()
         (y, x) = np.array(prediction).shape
         print("predicted shape:", np.array(prediction).shape)
         print("resized pred shape:", np.array(p_resized_back).shape)
-        # im = Image.fromarray(np.uint8(prediction))
-        # res, im_png = cv2.imencode(".png", np.array(prediction).astype(np.uint8))
-        return serve_pil_image(p_resized_back), labels, conf_max
-        print(im_png.shape)
-        return im_png.tobytes()
+        return serve_pil_image(p_resized_back), labels, serve_confidence_map(conf_max)
 
-    def __init__(self):
+    def __init__(self, _labelCoord):
         self.load_info()
         self.loadModel("unity_resnet34")
+        self.labelCoord = _labelCoord
 
     def __str__(self):
         outs = ""

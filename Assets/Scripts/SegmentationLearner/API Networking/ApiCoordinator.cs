@@ -22,6 +22,8 @@ public class ApiCoordinator : Singleton<ApiCoordinator> {
     IEnumerator SentAPIRequest(string json, string subMethod) {
         string url = "http://127.0.0.1:4200/" + subMethod;
         using(UnityWebRequest request = UnityWebRequest.Put(url, json)) {
+            Debug.Log("trying to send a json:"+json);
+
             request.SetRequestHeader("Content-Type", "application/json");
             yield return request.SendWebRequest();
 
@@ -31,9 +33,14 @@ public class ApiCoordinator : Singleton<ApiCoordinator> {
             } else {
                 string resultJson = System.Text.Encoding.Default.GetString(request.downloadHandler.data);
                 Debug.Log(resultJson);
-                DataClass info = JsonUtility.FromJson<DataClass>(resultJson);
+                DataResponseClass info = JsonUtility.FromJson<DataResponseClass>(resultJson);
                 if (info != null) {
-                    if (info.image64.Length > 10) {
+                    if (info.image64 != null) {
+                        //info.confidences is a picture overlay of confidence map
+                        //Debug.Log("info.confidences:"+info.confidences);
+
+                        Debug.Log("info.labels:"+info.labels);
+                        Debug.Log("labelPositionsX:"+info.labelPositionsX+" labelPositionsY:"+info.labelPositionsY);
                         byte[] decodedBytes = Convert.FromBase64String(info.image64);
                         OverlayCoordinator.RenderToPanelSingle(decodedBytes);
                     }
