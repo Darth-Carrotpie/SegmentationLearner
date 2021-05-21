@@ -31,7 +31,16 @@ def show_masked_original_size(base_img, learner):
     p_resized_back = pred_img.resize((x, y), resample=Image.BOX)
     plt.imshow(np.array(base_img))
     plt.imshow(np.array(p_resized_back), alpha=0.25)
-    
+   
+
+def show_pred_img_original_size(base_img, learner):
+    pred = learner.predict(np.array(base_img))[0]
+    pred_img = PILImage.create(pred)
+    y, x = base_img.shape
+    p_resized_back = pred_img.resize((x, y), resample=Image.BOX)
+    plt.imshow(np.array(p_resized_back))
+
+
 def show_superimposed(cam_fn, mask_fn):
     #test how mask is shown, from: https://docs.fast.ai/vision.core.html
     cam_img = PILImage.create(cam_fn)
