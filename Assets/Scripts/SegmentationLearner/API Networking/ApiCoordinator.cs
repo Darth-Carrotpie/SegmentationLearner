@@ -7,7 +7,12 @@ using UnityEngine.Networking;
 
 public class ApiCoordinator : Singleton<ApiCoordinator> {
 
+    float start = 0f;
+    float received = 0f;
+    float end = 0f;
+
     public static void Predict(byte[] imageBytes) { //predict_image";
+        Instance.start = Time.time;
         string json = ApiJsonHandler.GetPrediction(imageBytes);
         string subMethod = "predict_image_text"; //predict_image";
         Instance.StartCoroutine(Instance.SentAPIRequest(json, subMethod));
@@ -26,6 +31,7 @@ public class ApiCoordinator : Singleton<ApiCoordinator> {
 
             request.SetRequestHeader("Content-Type", "application/json");
             yield return request.SendWebRequest();
+            Instance.received = Time.time;
 
             if (request.result != UnityWebRequest.Result.Success) {
                 Debug.Log(request.error);
@@ -43,7 +49,11 @@ public class ApiCoordinator : Singleton<ApiCoordinator> {
                         LabelTextFactory.SetPositions(info.labels);
                     }
                 }
+                Instance.end = Time.time;
             }
         }
+        //Debug.Log("Received dif:"+(received - start));
+        //Debug.Log("Unity side dif:"+(end - received));
+        Debug.Log("Total dif:"+(end - start));
     }
 }

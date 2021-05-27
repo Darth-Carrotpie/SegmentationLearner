@@ -1,6 +1,7 @@
 import os
 from fastai.vision.all import resnet34, PILImage
 from fastai.learner import load_learner, load_model
+from fastinference.onnx import fastONNX
 import pandas as pd
 import pathlib
 import cv2
@@ -27,8 +28,10 @@ class ModelCoordinator:
 
     def loadModel(self, filename):
         self.filename = os.path.join(self.path, "models", filename)
-        self.model = load_learner(self.filename, resnet34)
-        print(os.path.join(self.path, "models", self.filename))
+        # self.model = load_learner(self.filename, resnet34)
+
+        self.model = fastONNX(self.filename)
+        print(self.filename)
 
     def debug_label(self, im, pixel_id):
         res, im = cv2.imencode(".png", im)
@@ -41,28 +44,39 @@ class ModelCoordinator:
         im.show()
 
     def predict(self, inputImage):
-        (y, x, z) = inputImage.shape
+        (_, z, y, x) = inputImage.shape
 
         start_time = time.time()
-        model_output = self.model.predict(inputImage)
+        # single_dl = self.model.test_dl(inputImage)
+        print(
+            type(inputImage), " shape: ", inputImage.shape
+        )  # could be wrong model... or wrong input. how to figure out?
+        confidences = self.model.predict(inputImage)
+        activation = self.model.loss_func.activation(confidences)
+        print("activation : ", activation.shape)
+        print("activation : ", activation[:50])
+        decoded = self.model.loss_func.decodes(confidences)
+        print("decoded : ", decoded.shape)
+        print("decoded : ", decoded[:50])
+
         pred_time = time.time()
-        prediction = model_output[0]
-        confidences = model_output[2]
         conf_max_cats = np.argmax(confidences, axis=0)
-        # print("conf_max_cats : ", conf_max_cats.shape)
+        print("conf_max_cats : ", conf_max_cats.shape)
+        print("conf_max_cats : ", conf_max_cats[:50])
 
         conf_max = np.amax(np.array(confidences), axis=0)
         conf_max = np.around(conf_max, 2)
-        # print("conf_max : ", conf_max.shape)
-        labels = np.unique(prediction)
-        pred_img = draw_preds_image(prediction, self.labelCoord.colors, labels)
+        print("conf_max : ", conf_max.shape)
+        print("conf_max : ", conf_max[:50])
+        labels = np.unique(conf_max_cats)
+        pred_img = draw_preds_image(conf_max, self.labelCoord.colors, labels)
         draw_time = time.time()
 
         p_resized_back = pred_img.resize((x, y), resample=Image.BOX)
-        (y, x) = np.array(prediction).shape
+        (y, x) = np.array(conf_max).shape
         # print("predicted shape:", np.array(prediction).shape)
         # print("resized pred shape:", np.array(p_resized_back).shape)
-        coords = label_coords(prediction, labels)
+        coords = label_coords(conf_max, labels)
         coords_time = time.time()
         print("prediction computations time:", str(pred_time - start_time))
         print("draw_preds_image computations time:", str(draw_time - pred_time))
@@ -71,7 +85,8 @@ class ModelCoordinator:
 
     def __init__(self, _labelCoord):
         self.load_info()
-        self.loadModel("unity_resnet34")
+        # self.loadModel("unity_resnet34")
+        self.loadModel("unity_resnet34_onnx_64x")
         self.labelCoord = _labelCoord
 
     def __str__(self):

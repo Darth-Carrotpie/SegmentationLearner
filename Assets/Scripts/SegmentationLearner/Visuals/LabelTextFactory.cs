@@ -43,9 +43,9 @@ public class LabelTextFactory : Singleton<LabelTextFactory>
             Instance.labelTexts[labelId].GetComponent<RectTransform>().anchoredPosition = newPos;
         else
             Debug.Log("No key in labelTexts dict:"+labelId);
-        Debug.Log("Set Positions "+Instance.labelTexts[labelId].GetComponent<TextMeshProUGUI>().text+
+        /*Debug.Log("Set Positions "+Instance.labelTexts[labelId].GetComponent<TextMeshProUGUI>().text+
                     " scaledX: "+scaledX+ " scaledX: "+scaledY+
-                    " x: "+x+ " y: "+y);
+                    " x: "+x+ " y: "+y);*/
     }
     public static void SetPositions(List<LabelResponseClass> labels){
         foreach(LabelResponseClass lClass in labels){

@@ -4,6 +4,8 @@ import numpy as np
 from PIL import Image
 from io import BytesIO
 from fastai.vision.all import PILImage
+from torchvision.transforms.functional import pil_to_tensor, convert_image_dtype
+from torchvision.transforms import Resize, ToTensor
 
 path = pathlib.Path().absolute()
 
@@ -12,8 +14,20 @@ def label_func(fn):
     return os.path.join(path, "labels", f"{fn.stem}{fn.suffix}")
 
 
+def load_image_onnx(data):
+    resize = Resize([64, 64])
+    to_tensor = ToTensor()
+    res = resize(PILImage.create(BytesIO(data)))
+    tn = to_tensor(res)
+    print("before unsqeeze: ", tn.shape)
+    tn.unsqueeze_(0)
+    print("after unsqeeze: ", tn.shape)
+    return tn
+    # return to_tensor(resize()).unsqueeze_(0)
+
+
 def load_image(data):
-    return np.array(PILImage.create(BytesIO(data)))
+    return convert_image_dtype(pil_to_tensor(PILImage.create(BytesIO(data))))
 
 
 def path_to_image_bytes(path):
