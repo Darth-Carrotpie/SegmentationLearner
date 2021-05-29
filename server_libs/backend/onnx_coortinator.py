@@ -6,9 +6,11 @@ import pandas as pd
 import pathlib
 import cv2
 import numpy as np
+from torch import tensor
 import torch
 from PIL import Image
 import time
+
 
 from server_libs.backend.helper_funcs import (
     serve_pil_image,
@@ -45,43 +47,56 @@ class ModelCoordinator:
 
     def predict(self, inputImage):
         (_, z, y, x) = inputImage.shape
-
         start_time = time.time()
-        # single_dl = self.model.test_dl(inputImage)
-        print(
-            type(inputImage), " shape: ", inputImage.shape
-        )  # could be wrong model... or wrong input. how to figure out?
-        confidences = self.model.predict(inputImage)
-        activation = self.model.loss_func.activation(confidences)
-        print("activation : ", activation.shape)
-        print("activation : ", activation[:50])
-        decoded = self.model.loss_func.decodes(confidences)
-        print("decoded : ", decoded.shape)
-        print("decoded : ", decoded[:50])
-
+        # print(inputImage[:20])
+        raw_output = self.model.predict(inputImage)
         pred_time = time.time()
-        conf_max_cats = np.argmax(confidences, axis=0)
-        print("conf_max_cats : ", conf_max_cats.shape)
-        print("conf_max_cats : ", conf_max_cats[:50])
+        confidences = self.model.dls.loss_func.activation(tensor(raw_output)).squeeze(0)
+        print("confidences : ", confidences.shape)
+        # print("confidences : ", confidences[:5])
+        conf_max_vals, conf_max_indeces = torch.max(confidences, 0)
+        # conf_max_cats = np.argmax(confidences, axis=0)
+        print("conf_max_cats : ", conf_max_indeces.shape)
+        # print("conf_max_cats : ", conf_max_indeces)
 
-        conf_max = np.amax(np.array(confidences), axis=0)
-        conf_max = np.around(conf_max, 2)
-        print("conf_max : ", conf_max.shape)
-        print("conf_max : ", conf_max[:50])
-        labels = np.unique(conf_max_cats)
-        pred_img = draw_preds_image(conf_max, self.labelCoord.colors, labels)
+        # labels = np.unique(conf_max_indeces)
+        # print("labels:", labels)
+
+        # conf_max = np.amax(np.array(confidences), axis=0)
+        # conf_max = np.around(conf_max, 2)
+        print("conf_max : ", conf_max_vals.shape)
+        # print("conf_max : ", conf_max_vals)
+
+        predictions = self.model.dls.loss_func.decodes(tensor(raw_output))
+        predictions = predictions.numpy().squeeze(0)
+        loss_decodes = time.time()
+
+        print("predictions : ", predictions.shape)
+        # print("predictions : ", predictions[:5])
+        acts_confs_time = time.time()
+
+        labels = np.unique(predictions)
+        # print("labels:", labels)
+        # pred_img = draw_preds_image(conf_max, self.labelCoord.colors, labels)
+        pred_img = draw_preds_image(predictions, self.labelCoord.colors, labels)
         draw_time = time.time()
 
         p_resized_back = pred_img.resize((x, y), resample=Image.BOX)
-        (y, x) = np.array(conf_max).shape
-        # print("predicted shape:", np.array(prediction).shape)
+        (y, x) = np.array(predictions).shape
+        # print("predictions shape:", np.array(predictions).shape)
         # print("resized pred shape:", np.array(p_resized_back).shape)
-        coords = label_coords(conf_max, labels)
+        coords = label_coords(predictions, labels)
         coords_time = time.time()
         print("prediction computations time:", str(pred_time - start_time))
-        print("draw_preds_image computations time:", str(draw_time - pred_time))
+        print("loss_decodes computations time:", str(loss_decodes - pred_time))
+        print("acts_confs_time computations time:", str(acts_confs_time - loss_decodes))
+        print("draw_time computations time:", str(draw_time - acts_confs_time))
         print("label_coords computations time:", str(coords_time - draw_time))
-        return serve_pil_image(p_resized_back), coords, serve_confidence_map(conf_max)
+        print("total time:", str(coords_time - start_time))
+        return (
+            serve_pil_image(p_resized_back),
+            coords,
+        )  # , serve_confidence_map(conf_max)
 
     def __init__(self, _labelCoord):
         self.load_info()

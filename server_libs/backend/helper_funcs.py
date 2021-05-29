@@ -4,8 +4,13 @@ import numpy as np
 from PIL import Image
 from io import BytesIO
 from fastai.vision.all import PILImage
-from torchvision.transforms.functional import pil_to_tensor, convert_image_dtype
-from torchvision.transforms import Resize, ToTensor
+from torchvision.transforms.functional import (
+    pil_to_tensor,
+    convert_image_dtype,
+    normalize,
+)
+from torchvision.transforms import Resize
+import torch
 
 path = pathlib.Path().absolute()
 
@@ -14,20 +19,26 @@ def label_func(fn):
     return os.path.join(path, "labels", f"{fn.stem}{fn.suffix}")
 
 
-def load_image_onnx(data):
+def normalize_tensor(inp_tensor):
+    mean = torch.mean(inp_tensor)
+    std = torch.std(inp_tensor)
+    # print("pre norm: mean: ", mean, " std: ", std)
+    return normalize(inp_tensor, mean, std)
+
+
+def image64_to_tensor(data):
     resize = Resize([64, 64])
-    to_tensor = ToTensor()
     res = resize(PILImage.create(BytesIO(data)))
-    tn = to_tensor(res)
-    print("before unsqeeze: ", tn.shape)
+    tn = pil_to_tensor(res).to(torch.float)
+    tn = normalize_tensor(tn)
+    # print("post norm: mean: ", mean, " std: ", std)
+
     tn.unsqueeze_(0)
-    print("after unsqeeze: ", tn.shape)
     return tn
-    # return to_tensor(resize()).unsqueeze_(0)
 
 
-def load_image(data):
-    return convert_image_dtype(pil_to_tensor(PILImage.create(BytesIO(data))))
+# def load_image(data):
+#    return convert_image_dtype(pil_to_tensor(PILImage.create(BytesIO(data))))
 
 
 def path_to_image_bytes(path):
@@ -64,15 +75,23 @@ def serve_confidence_map(confs):
 
 
 def draw_preds_image(preds, colors, labels):
-    preds_4d = np.repeat(preds[..., np.newaxis], 4, axis=2)
+
+    # preds_4d = np.repeat(preds[..., np.newaxis], 4, axis=2)
+    preds_4d = np.repeat(preds, 4, axis=0)
     preds_4d = np.array(preds_4d).astype(np.uint8)
+    # print(type(preds_4d), " preds_4d shape: ", preds_4d.shape)
     for label in labels:
-        preds_4d = replace_color(preds_4d, label, colors[label - 1].GetTuple())
-    return PILImage.create(np.uint8(preds_4d))
+        # print(label, " label, color : ", colors[label - 1])
+        preds_4d = replace_color(
+            preds_4d, label, np.array(colors[label - 1].GetTuple())
+        )
+    trans = preds_4d.transpose(1, 2, 0)
+    # print(type(trans), " preds_4d shape: ", trans.shape)
+    return PILImage.create(np.uint8(trans))
 
 
 def replace_color(img_arr, source, target):
-    return np.where(img_arr == source, np.array(target), img_arr)
+    return np.where(img_arr == source, target[..., np.newaxis, np.newaxis], img_arr)
 
 
 def label_coords(preds, labels):

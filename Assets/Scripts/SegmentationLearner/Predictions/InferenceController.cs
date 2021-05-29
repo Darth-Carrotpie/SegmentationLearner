@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 public class InferenceController : MonoBehaviour {
 
     bool runInference = false;
-    int skipFrame = 60;
+    int skipFrame = 5;
 
     public void Start(){
         EventCoordinator.StartListening(EventName.System.StartInference(), OnInfStart);

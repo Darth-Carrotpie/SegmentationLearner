@@ -8,7 +8,7 @@ from server_libs.comm_classes import DataClass, LabelClass
 import base64
 from server_libs.backend.onnx_coortinator import ModelCoordinator
 from server_libs.backend.lcoordinator import LabelCoordinator
-from server_libs.backend.helper_funcs import label_func, load_image, load_image_onnx
+from server_libs.backend.helper_funcs import label_func, image64_to_tensor
 
 from server_libs.backend.test_upload import test_upload, test_text_upload
 
@@ -50,19 +50,19 @@ def set_label_colors(item: LabelClass):
 
 @api.put("/predict_image_text")
 async def image_endpoint_text(item: DataClass):
-    print("request received, waiting to read...")
-    print("image read!")
-    loaded_image = load_image_onnx(base64.b64decode(item.image64))
-    print("received image, shape: ", loaded_image.shape)
-    pred_img_bytes, labels, confidences = models.predict(loaded_image)
+    print("request received, waiting to load...")
+    loaded_image = image64_to_tensor(base64.b64decode(item.image64))
+    # print("received image, shape: ", loaded_image.shape)
+    # pred_img_bytes, labels, confidences = models.predict(loaded_image)
+    pred_img_bytes, labels = models.predict(loaded_image)
     prep_to_send = base64.b64encode(pred_img_bytes.read()).decode("ascii")
-    confidences = base64.b64encode(confidences.read()).decode("ascii")
+    # confidences = base64.b64encode(confidences.read()).decode("ascii")
     print("encoded image len:", len(prep_to_send))
     payload = {
         "mime": "image/png",
         "labels": labels,
         "image64": prep_to_send,
-        "confidences": confidences,
+        # "confidences": confidences,
     }
     # print(str(payload)[:150])
     return JSONResponse(content=payload, media_type="application/json")
