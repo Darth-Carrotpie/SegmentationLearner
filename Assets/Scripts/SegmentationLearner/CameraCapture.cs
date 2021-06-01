@@ -10,11 +10,11 @@ public class CameraCapture : Singleton<CameraCapture>
     private Camera normalCamera;
     private Camera labelCamera;
 
-    public RenderTexture rendTex;
-    public RenderTexture labTex;
+    RenderTexture rendTex;
+    RenderTexture labTex;
 
     public int texWidth = 640;
-    public int texHeight = 400;
+    public int texHeight = 360;
 
     public static Vector2 GetDimentions(){
         return new Vector2(Instance.texWidth, Instance.texHeight);

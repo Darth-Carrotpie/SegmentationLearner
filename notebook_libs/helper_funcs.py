@@ -108,3 +108,13 @@ def debug_label(label_img, pixel_id):
             pix[x, y] = 255
             #pix[x, y] = (0, 255, 0, 255)
     im.show()
+    
+def onnx_model_names(in_path):
+    #out_list = []
+    for dirpath, dirnames, filenames in os.walk(in_path):
+        return [x for x in filenames if "_onnx" in x]
+    #    for filename in filenames:
+    #        if "_onnx" in filenames:
+    #            out_list.append(filename)
+    #            print dirpath, dirnames, filenames
+    return []

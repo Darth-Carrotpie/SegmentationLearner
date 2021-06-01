@@ -14,10 +14,12 @@ from server_libs.backend.test_upload import test_upload, test_text_upload
 
 from starlette.responses import StreamingResponse
 
+MODEL_SIZE = 128
+
 api = FastAPI()
 
 labelCoord = LabelCoordinator()
-models = ModelCoordinator(labelCoord)
+models = ModelCoordinator(labelCoord, MODEL_SIZE)
 
 origins = [
     "http://127.0.0.1",
@@ -50,11 +52,8 @@ def set_label_colors(item: LabelClass):
 
 @api.put("/predict_image_text")
 async def image_endpoint_text(item: DataClass):
-    print("request received, waiting to load...")
-    loaded_image = image64_to_tensor(base64.b64decode(item.image64))
-    # print("received image, shape: ", loaded_image.shape)
-    # pred_img_bytes, labels, confidences = models.predict(loaded_image)
-    pred_img_bytes, labels = models.predict(loaded_image)
+    print("request received, waiting to predict...")
+    pred_img_bytes, labels = models.predict(base64.b64decode(item.image64))
     prep_to_send = base64.b64encode(pred_img_bytes.read()).decode("ascii")
     # confidences = base64.b64encode(confidences.read()).decode("ascii")
     print("encoded image len:", len(prep_to_send))

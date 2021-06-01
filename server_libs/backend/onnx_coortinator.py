@@ -10,46 +10,26 @@ from torch import tensor
 import torch
 from PIL import Image
 import time
-
+from .custom_onnx import predict_image
 
 from server_libs.backend.helper_funcs import (
     serve_pil_image,
     serve_confidence_map,
     draw_preds_image,
     label_coords,
+    image64_to_tensor,
 )
 
 
 class ModelCoordinator:
-    def load_info(self):
-        self.path = pathlib.Path().absolute()
-        self.path = os.path.join(self.path, "Assets", "Data~")
-
-        self.codes = pd.read_csv(os.path.join(self.path, "labels.csv"))
-        self.img_size = (256, 256)
-
-    def loadModel(self, filename):
-        self.filename = os.path.join(self.path, "models", filename)
-        # self.model = load_learner(self.filename, resnet34)
-
-        self.model = fastONNX(self.filename)
-        print(self.filename)
-
-    def debug_label(self, im, pixel_id):
-        res, im = cv2.imencode(".png", im)
-        pix = im.load()
-        for i in range(len(list(im.getdata(band=0)))):
-            x = i % 640
-            y = int(i / 640)
-            if pix[x, y] == pixel_id:
-                pix[x, y] = 255
-        im.show()
-
     def predict(self, inputImage):
+        inputImage = image64_to_tensor(inputImage, self.MODEL_SIZE)
+
         (_, z, y, x) = inputImage.shape
         start_time = time.time()
         # print(inputImage[:20])
-        raw_output = self.model.predict(inputImage)
+        # raw_output = self.model.predict(inputImage)
+        raw_output = predict_image(self.model.ort_session, inputImage)
         pred_time = time.time()
         confidences = self.model.dls.loss_func.activation(tensor(raw_output)).squeeze(0)
         print("confidences : ", confidences.shape)
@@ -98,11 +78,23 @@ class ModelCoordinator:
             coords,
         )  # , serve_confidence_map(conf_max)
 
-    def __init__(self, _labelCoord):
-        self.load_info()
-        # self.loadModel("unity_resnet34")
-        self.loadModel("unity_resnet34_onnx_64x")
+    def load_info(self):
+        self.path = pathlib.Path().absolute()
+        self.path = os.path.join(self.path, "Assets", "Data~")
+        self.codes = pd.read_csv(os.path.join(self.path, "labels.csv"))
+
+    def loadModel(self, filename):
+        self.filename = os.path.join(self.path, "models", filename)
+        self.model = fastONNX(self.filename)
+        print("loaded: ", self.filename)
+
+    def __init__(self, _labelCoord, _MODEL_SIZE):
+        self.MODEL_SIZE = _MODEL_SIZE
         self.labelCoord = _labelCoord
+
+        self.load_info()
+        load_name = "unity_resnet34" + "_" + str(_MODEL_SIZE) + "x_onnx"
+        self.loadModel(load_name)
 
     def __str__(self):
         outs = ""

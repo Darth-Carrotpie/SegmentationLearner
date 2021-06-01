@@ -6,7 +6,6 @@ from io import BytesIO
 from fastai.vision.all import PILImage
 from torchvision.transforms.functional import (
     pil_to_tensor,
-    convert_image_dtype,
     normalize,
 )
 from torchvision.transforms import Resize
@@ -26,8 +25,8 @@ def normalize_tensor(inp_tensor):
     return normalize(inp_tensor, mean, std)
 
 
-def image64_to_tensor(data):
-    resize = Resize([64, 64])
+def image64_to_tensor(data, size):
+    resize = Resize([size, size])
     res = resize(PILImage.create(BytesIO(data)))
     tn = pil_to_tensor(res).to(torch.float)
     tn = normalize_tensor(tn)
@@ -35,10 +34,6 @@ def image64_to_tensor(data):
 
     tn.unsqueeze_(0)
     return tn
-
-
-# def load_image(data):
-#    return convert_image_dtype(pil_to_tensor(PILImage.create(BytesIO(data))))
 
 
 def path_to_image_bytes(path):
