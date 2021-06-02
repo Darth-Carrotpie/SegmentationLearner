@@ -14,7 +14,7 @@ from server_libs.backend.test_upload import test_upload, test_text_upload
 
 from starlette.responses import StreamingResponse
 
-MODEL_SIZE = 128
+MODEL_SIZE = 64
 
 api = FastAPI()
 

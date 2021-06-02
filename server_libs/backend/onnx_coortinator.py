@@ -10,7 +10,7 @@ from torch import tensor
 import torch
 from PIL import Image
 import time
-from .custom_onnx import predict_image
+from server_libs.custom_onnx import predict_image
 
 from server_libs.backend.helper_funcs import (
     serve_pil_image,
@@ -31,12 +31,12 @@ class ModelCoordinator:
         # raw_output = self.model.predict(inputImage)
         raw_output = predict_image(self.model.ort_session, inputImage)
         pred_time = time.time()
-        confidences = self.model.dls.loss_func.activation(tensor(raw_output)).squeeze(0)
-        print("confidences : ", confidences.shape)
+        # confidences = self.model.dls.loss_func.activation(tensor(raw_output)).squeeze(0)
+        # print("confidences : ", confidences.shape)
         # print("confidences : ", confidences[:5])
-        conf_max_vals, conf_max_indeces = torch.max(confidences, 0)
+        # conf_max_vals, conf_max_indeces = torch.max(confidences, 0)
         # conf_max_cats = np.argmax(confidences, axis=0)
-        print("conf_max_cats : ", conf_max_indeces.shape)
+        # print("conf_max_cats : ", conf_max_indeces.shape)
         # print("conf_max_cats : ", conf_max_indeces)
 
         # labels = np.unique(conf_max_indeces)
@@ -44,7 +44,7 @@ class ModelCoordinator:
 
         # conf_max = np.amax(np.array(confidences), axis=0)
         # conf_max = np.around(conf_max, 2)
-        print("conf_max : ", conf_max_vals.shape)
+        # print("conf_max : ", conf_max_vals.shape)
         # print("conf_max : ", conf_max_vals)
 
         predictions = self.model.dls.loss_func.decodes(tensor(raw_output))
@@ -53,7 +53,6 @@ class ModelCoordinator:
 
         print("predictions : ", predictions.shape)
         # print("predictions : ", predictions[:5])
-        acts_confs_time = time.time()
 
         labels = np.unique(predictions)
         # print("labels:", labels)
@@ -69,8 +68,7 @@ class ModelCoordinator:
         coords_time = time.time()
         print("prediction computations time:", str(pred_time - start_time))
         print("loss_decodes computations time:", str(loss_decodes - pred_time))
-        print("acts_confs_time computations time:", str(acts_confs_time - loss_decodes))
-        print("draw_time computations time:", str(draw_time - acts_confs_time))
+        print("draw_time computations time:", str(draw_time - loss_decodes))
         print("label_coords computations time:", str(coords_time - draw_time))
         print("total time:", str(coords_time - start_time))
         return (
