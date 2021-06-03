@@ -45,7 +45,7 @@ It is thus made of three parts:
 Within Unity you will find a scene. Load it if you have not yet done it. The scene will contain an example level ready to be used. If you hit "play" button in the editor, the level should load and setup the environment for you.
 Then just input how many pictures you want to generate (i.e. 500) and click "Generate" button. You will find your dataset in ```/Assets/Data~``` folder.
 
-For more details about Unity part of this project see [Unity Readme](README_UNITY.md).
+For more details about Unity part of this project see [Unity Readme](Readmes/README_UNITY.md).
 
 
 ### Training
@@ -54,7 +54,7 @@ The notebook itself is with quite detailed descriptions. It is a fastai based pr
 ![unet](https://www.researchgate.net/profile/Alan-Jackson-2/publication/323597886/figure/fig2/AS:601386504957959@1520393124691/Convolutional-neural-network-CNN-architecture-based-on-UNET-Ronneberger-et-al.png)
 *Unet picture source: Silburt, Ari & Ali-Dib, Mohamad & Zhu, Chenchong & Jackson, Alan & Valencia, Diana & Kissin, Yevgeni & Tamayo, Daniel & Menou, Kristen. (2018). Lunar Crater Identification via Deep Learning. Icarus. 317. 10.1016/j.icarus.2018.06.022.*
 
-For more details about training see [Train Readme](README_TRAIN.md).
+For more details about training see [Train Readme](Readmes/README_TRAIN.md).
 
 ### Inference
 First start the fastapi server. Then in Unity Play mode move the camera around and enable "inference" mode to communicate to API by pressing "Space". See the overlayed results :)
@@ -67,11 +67,11 @@ First start the fastapi server. Then in Unity Play mode move the camera around a
 - "Q" key to show/hide background, leaving only label layer.
 - "E" to force show labels, or to clear them (if they are being shown). This works also in non-inference mode (as a single web request), but will return nothing if there are no models saved/running.
 
-For more details about server and inference in general see [Inference Readme](README_INFER.md).
+For more details about server and inference in general see [Inference Readme](Readmes/README_INFER.md).
 
 
 ## Discussion
-If you are interested in the roadmap of this project, I wrote a short story discussing the problems encountered and summarizing possibilities. See [Discussion Readme](README_DISC.md). You will find these chapters there:
+If you are interested in the roadmap of this project, I wrote a short story discussing the problems encountered and summarizing possibilities. See [Discussion Readme](Readmes/README_DISC.md). You will find these chapters there:
 - Roadmap story
 - Usability discussion
 - Ideas for improvements
