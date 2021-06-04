@@ -13,11 +13,8 @@ public class CameraCapture : Singleton<CameraCapture>
     RenderTexture rendTex;
     RenderTexture labTex;
 
-    public int texWidth = 640;
-    public int texHeight = 360;
-
     public static Vector2 GetDimentions(){
-        return new Vector2(Instance.texWidth, Instance.texHeight);
+        return new Vector2(ConstantsBucket.TexWidth, ConstantsBucket.TexHeight);
     }
 
     public static void Setup(Camera normal, Camera label)
@@ -25,12 +22,12 @@ public class CameraCapture : Singleton<CameraCapture>
         Instance.normalCamera = normal;
         Instance.labelCamera = label;
 
-        Instance.rendTex = new RenderTexture(Instance.texWidth,
-            Instance.texHeight,
+        Instance.rendTex = new RenderTexture(ConstantsBucket.TexWidth,
+            ConstantsBucket.TexHeight,
             16, RenderTextureFormat.ARGB32,
             RenderTextureReadWrite.sRGB);
-        Instance.labTex = new RenderTexture(Instance.texWidth,
-            Instance.texHeight,
+        Instance.labTex = new RenderTexture(ConstantsBucket.TexWidth,
+            ConstantsBucket.TexHeight,
             16, RenderTextureFormat.ARGB32,
             RenderTextureReadWrite.sRGB);
     }
@@ -42,8 +39,8 @@ public class CameraCapture : Singleton<CameraCapture>
         RenderTexture.active = Cam.targetTexture;
 
         Cam.Render();
-        Texture2D Image = new Texture2D(texWidth, texHeight, TextureFormat.RGBA32, false);
-        Image.ReadPixels(new Rect(0, 0, texWidth, texHeight), 0, 0);
+        Texture2D Image = new Texture2D(ConstantsBucket.TexWidth, ConstantsBucket.TexHeight, TextureFormat.RGBA32, false);
+        Image.ReadPixels(new Rect(0, 0, ConstantsBucket.TexWidth, ConstantsBucket.TexHeight), 0, 0);
         Image.Apply();
 
         return Image.EncodeToPNG();
@@ -64,8 +61,8 @@ public class CameraCapture : Singleton<CameraCapture>
 
 
         Cam.Render();
-        Texture2D Image = new Texture2D(texWidth, texHeight, format, linear);
-        Image.ReadPixels(new Rect(0, 0, texWidth, texHeight), 0, 0);
+        Texture2D Image = new Texture2D(ConstantsBucket.TexWidth, ConstantsBucket.TexHeight, format, linear);
+        Image.ReadPixels(new Rect(0, 0, ConstantsBucket.TexWidth, ConstantsBucket.TexHeight), 0, 0);
         //RenderTexture.active = currentRT;
         if (subfolder == "labels/")
         {

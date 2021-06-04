@@ -5,9 +5,6 @@ using UnityEngine.AI;
 
 public class PointCloudCoordinator : Singleton<PointCloudCoordinator> {
 
-    public float heightBias = 2f;
-    public float heightDelta = 0.5f;
-
     public GameObject pointPrefab;
 
     int currentPoint;
@@ -53,7 +50,7 @@ public class PointCloudCoordinator : Singleton<PointCloudCoordinator> {
     }
 
     public Vector3 RndHeight() {
-        return new Vector3(0, Random.Range(-heightDelta, heightDelta) + heightBias, 0);
+        return new Vector3(0, Random.Range(-ConstantsBucket.HeightDelta, ConstantsBucket.HeightDelta) + ConstantsBucket.HeightBias, 0);
     }
 
     public Vector3 GetRandomLocation() {

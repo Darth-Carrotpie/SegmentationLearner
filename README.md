@@ -61,7 +61,7 @@ First start the fastapi server. Then in Unity Play mode move the camera around a
 
 ** insert a screenshot of overlayed in unity **
 
-- Walk around using "W-A-S-D" keys.
+- Move the camera using "W-A-S-D" keys. Aim with mouse.
 - The API simply returns labels and overlays them via a shader. With buttons F1-F4 you can isolate label groups to see only a single group one at a time, i.e. furniture, building, animals.
 - With "+" and "-" keys (num-pad) you can regulate label overlay opacity. Use it if you cannot see objects well enough.
 - "Q" key to show/hide background, leaving only label layer.

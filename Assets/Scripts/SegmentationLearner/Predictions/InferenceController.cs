@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 public class InferenceController : MonoBehaviour {
 
     bool runInference = false;
-    int skipFrame = 5;
+    float targetDeltaTime = 1f;
 
     public void Start(){
         EventCoordinator.StartListening(EventName.System.StartInference(), OnInfStart);
@@ -18,6 +18,7 @@ public class InferenceController : MonoBehaviour {
         runInference = true;
         LabelMaskController.IsolateLabelMaskGroup(0);
         OverlayColorController.Show(true);
+        targetDeltaTime = 1f / ConstantsBucket.TargetFPS;
         StartCoroutine(RunInference());
     }
     void OnInfStop(GameMessage message){
@@ -27,11 +28,11 @@ public class InferenceController : MonoBehaviour {
 
 
     IEnumerator RunInference() {
-        int frameCout = 0;
+        float currDeltaTime = 0;
         while(runInference){
-            frameCout++;
-            if(frameCout > skipFrame){
-                frameCout = 0;
+            currDeltaTime+=Time.deltaTime;
+            if(currDeltaTime > targetDeltaTime){
+                currDeltaTime = 0;
                 ApiCoordinator.Predict(CameraCapture.CaptureScreenshot());
             }
             yield return null;
